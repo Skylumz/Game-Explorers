@@ -34,7 +34,7 @@ namespace GTA3TOOLS
         private void InitExplorer()
         {
             var di = new DirectoryInfo(GtaPath.FolderPath);
-            var root = new TreeNode(di.Name);
+            var root = new TreeNode(di.Name, 0, 0);
             root.Tag = di;
             GetAllFolders(ref root, di, "*");
             root.Expand();
@@ -45,7 +45,7 @@ namespace GTA3TOOLS
         {
             foreach (DirectoryInfo d in dir.GetDirectories())
             {
-                var folder = new TreeNode(d.Name);
+                var folder = new TreeNode(d.Name, 0, 0);
                 folder.Tag = d;
                 root.Nodes.Add(folder);
                 GetAllFolders(ref folder, d, searchPattern);
@@ -60,7 +60,7 @@ namespace GTA3TOOLS
 
             foreach(var d in di.GetDirectories())
             {
-                var lvi = new ListViewItem(d.Name);
+                var lvi = new ListViewItem(d.Name, 0);
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
                 lvi.Tag = d;
                 MainListView.Items.Add(lvi);
@@ -68,7 +68,7 @@ namespace GTA3TOOLS
 
             foreach(var f in di.GetFiles())
             {
-                var lvi = new ListViewItem(f.Name);
+                var lvi = new ListViewItem(f.Name, 1);
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
                 lvi.Tag = f;
