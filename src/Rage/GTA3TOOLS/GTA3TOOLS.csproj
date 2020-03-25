@@ -83,7 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FormResources\gta-3-icon-1.png" />
-    <Content Include="FormResources\gta_3_icon_1_nBY_icon.ico" />
+    <Content Include="FormResources\gta3.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

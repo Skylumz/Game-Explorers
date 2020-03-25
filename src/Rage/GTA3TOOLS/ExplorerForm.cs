@@ -15,6 +15,9 @@ namespace GTA3TOOLS
     public partial class ExplorerForm : Form
     {
         private GTAPATH GtaPath;
+
+        private TreeNode PreviousTreeNode;
+
         public ExplorerForm(GTAPATH gp)
         {
             if (gp == null) { return; }
@@ -23,17 +26,21 @@ namespace GTA3TOOLS
             if(GtaPath.HaveFolder())
             {
                 InitializeComponent();
+                this.Icon = Icon.ExtractAssociatedIcon(GtaPath.ExePath);
                 InitExplorer();
             }
         }
+        
         private void InitExplorer()
         {
             var di = new DirectoryInfo(GtaPath.FolderPath);
             var root = new TreeNode(di.Name);
             root.Tag = di;
             GetAllFolders(ref root, di, "*");
-            treeView1.Nodes.Add(root);
+            root.Expand();
+            MainTreeView.Nodes.Add(root);
         }
+        
         private void GetAllFolders(ref TreeNode root, DirectoryInfo dir, string searchPattern)
         {
             foreach (DirectoryInfo d in dir.GetDirectories())
@@ -44,18 +51,19 @@ namespace GTA3TOOLS
                 GetAllFolders(ref folder, d, searchPattern);
             }
         }
+        
         private void UpdateMainListView()
         {
-            listView1.Items.Clear();
+            MainListView.Items.Clear();
 
-            var di = treeView1.SelectedNode.Tag as DirectoryInfo;
+            var di = MainTreeView.SelectedNode.Tag as DirectoryInfo;
 
             foreach(var d in di.GetDirectories())
             {
                 var lvi = new ListViewItem(d.Name);
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
                 lvi.Tag = d;
-                listView1.Items.Add(lvi);
+                MainListView.Items.Add(lvi);
             }
 
             foreach(var f in di.GetFiles())
@@ -64,32 +72,65 @@ namespace GTA3TOOLS
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
                 lvi.Tag = f;
-                listView1.Items.Add(lvi);
+                MainListView.Items.Add(lvi);
             }
+
+            UpdateMainStatusStrip();
         }
+        
+        private void UpdateMainStatusStrip()
+        {
+            var di = MainTreeView.SelectedNode.Tag as DirectoryInfo;
+            AmountOfItemsInDirectoryLabel.Text = MainListView.Items.Count.ToString() + " Items";
+            AmountOfItemsSelectedInListViewLabel.Text = MainListView.SelectedItems.Count.ToString() + " Items Selected";
+        }
+
         private void SelectTreeNodeFromDirectory(DirectoryInfo di)
         {
-            foreach(TreeNode n in treeView1.Nodes)
+            foreach(TreeNode n in MainTreeView.SelectedNode.Nodes)
             {
-                if(n.Tag == di)
+                var ndi = n.Tag as DirectoryInfo;
+                if(ndi.FullName == di.FullName)
                 {
-                    treeView1.SelectedNode = n;
+                    MainTreeView.SelectedNode = n;
+                    n.Expand();
                 }
             }
         }
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-           UpdateMainListView();
-        }
-        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (listView1.SelectedItems.Count > 1) { return; }
 
-            var tag = listView1.SelectedItems[0].Tag;
-            if (tag is DirectoryInfo)
+        private void GoBack()
+        {
+            MainTreeView.SelectedNode = PreviousTreeNode;
+        }
+
+        //control functions
+        private void MainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            UpdateMainListView();
+        }
+        private void MainTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            PreviousTreeNode = MainTreeView.SelectedNode;
+        }
+        private void TempBackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GoBack();
+        }
+        private void MainListView_ItemActivate(object sender, EventArgs e)
+        {
+            if (MainListView.SelectedIndices.Count != 1) { return; }
+
+            var si = MainListView.SelectedItems[0];
+
+            if (si.Tag is DirectoryInfo)
             {
-                SelectTreeNodeFromDirectory(tag as DirectoryInfo);
+                SelectTreeNodeFromDirectory(si.Tag as DirectoryInfo);
             }
+
+        }
+        private void MainListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            UpdateMainStatusStrip();
         }
     }
 }

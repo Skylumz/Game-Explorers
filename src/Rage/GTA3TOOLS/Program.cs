@@ -20,8 +20,6 @@ namespace GTA3TOOLS
 
             var gtaPath = new GTAPATH("gta3.exe");
 
-            //gtaPath.GetGtaFolder();
-
             Application.Run(new ExplorerForm(gtaPath));
         }
     }
