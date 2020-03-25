@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="GTASA\" />
+    <Folder Include="GTA1\" />
+    <Folder Include="GTA2\" />
+    <Folder Include="GTA3\" />
+    <Folder Include="GTAVC\" />
+  </ItemGroup>
+
+</Project>
