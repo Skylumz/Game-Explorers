@@ -38,11 +38,11 @@
             this.AmountOfItemsSelectedInListViewLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.MainTreeView = new System.Windows.Forms.TreeView();
+            this.FileImageList = new System.Windows.Forms.ImageList(this.components);
             this.MainListView = new System.Windows.Forms.ListView();
             this.FileNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FileImageList = new System.Windows.Forms.ImageList(this.components);
             this.MainMenuStrip.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -128,6 +128,14 @@
             this.MainTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.MainTreeView_BeforeSelect);
             this.MainTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.MainTreeView_AfterSelect);
             // 
+            // FileImageList
+            // 
+            this.FileImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("FileImageList.ImageStream")));
+            this.FileImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.FileImageList.Images.SetKeyName(0, "folder.png");
+            this.FileImageList.Images.SetKeyName(1, "file-10.png");
+            this.FileImageList.Images.SetKeyName(2, "folder-2.png");
+            // 
             // MainListView
             // 
             this.MainListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -161,13 +169,6 @@
             this.SizeColumnHeader.Text = "Size";
             this.SizeColumnHeader.Width = 106;
             // 
-            // FileImageList
-            // 
-            this.FileImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("FileImageList.ImageStream")));
-            this.FileImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.FileImageList.Images.SetKeyName(0, "folder.png");
-            this.FileImageList.Images.SetKeyName(1, "file-10.png");
-            // 
             // ExplorerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,7 +199,6 @@
         private System.Windows.Forms.StatusStrip MainStatusStrip;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView MainTreeView;
-        private System.Windows.Forms.ListView MainListView;
         private System.Windows.Forms.ColumnHeader FileNameColumnHeader;
         private System.Windows.Forms.ColumnHeader TypeColumnHeader;
         private System.Windows.Forms.ColumnHeader SizeColumnHeader;
@@ -206,5 +206,6 @@
         private System.Windows.Forms.ToolStripStatusLabel AmountOfItemsInDirectoryLabel;
         private System.Windows.Forms.ToolStripStatusLabel AmountOfItemsSelectedInListViewLabel;
         private System.Windows.Forms.ImageList FileImageList;
+        public System.Windows.Forms.ListView MainListView;
     }
 }

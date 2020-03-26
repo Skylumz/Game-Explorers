@@ -34,12 +34,17 @@ namespace GTA3TOOLS.Utils
         }
 
         private string path;
+        private Dictionary<string, string> settings;
 
-        public GTAPATH(string k, string p = null)
+        public GTAPATH(string k)
         {
             key = k;
-            if (ExePath != null) { ExePath = p; }
-            else { GetGtaFolder(); }
+
+            settings = ApplicationSettings.GetSettings();
+            var p = settings["gtapath"];
+
+            if(!p.Contains(key)) { GetGtaFolder(); }
+            else { ExePath = p; }
         }
 
         public bool HaveFolder()
@@ -57,6 +62,8 @@ namespace GTA3TOOLS.Utils
             if (HaveFolder()) { return; }
 
             ExePath = FormBoxes.ShowFolderSelector("Please select a folder that contains gta3.exe!");
+            settings["gtapath"] = ExePath;
+            ApplicationSettings.SetSettings(settings);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using GTA3TOOLS.Utils;
+using RageCore.Common.GameFiles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace GTA3TOOLS
 {
     public partial class ExplorerForm : Form
     {
-        private GTAPATH GtaPath;
+        public GTAPATH GtaPath;
 
         private TreeNode PreviousTreeNode;
 
@@ -31,6 +32,7 @@ namespace GTA3TOOLS
             }
         }
         
+
         private void InitExplorer()
         {
             var di = new DirectoryInfo(GtaPath.FolderPath);
@@ -43,6 +45,16 @@ namespace GTA3TOOLS
         
         private void GetAllFolders(ref TreeNode root, DirectoryInfo dir, string searchPattern)
         {
+            foreach(FileInfo f in dir.GetFiles())
+            {
+                if(f.Extension == ".img" || f.Extension == ".rpf")
+                {
+                    var afolder = new TreeNode(f.Name, 2, 2);
+                    var archiveFile = LoadArchive(f.FullName);
+                    afolder.Tag = archiveFile;
+                    root.Nodes.Add(afolder);
+                }
+            }
             foreach (DirectoryInfo d in dir.GetDirectories())
             {
                 var folder = new TreeNode(d.Name, 0, 0);
@@ -56,23 +68,37 @@ namespace GTA3TOOLS
         {
             MainListView.Items.Clear();
 
-            var di = MainTreeView.SelectedNode.Tag as DirectoryInfo;
+            var t = MainTreeView.SelectedNode.Tag;
 
-            foreach(var d in di.GetDirectories())
+            if(t is DirectoryInfo)
             {
-                var lvi = new ListViewItem(d.Name, 0);
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
-                lvi.Tag = d;
-                MainListView.Items.Add(lvi);
+                var di = t as DirectoryInfo;
+
+                foreach (var d in di.GetDirectories())
+                {
+                    var lvi = new ListViewItem(d.Name, 0);
+                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
+                    lvi.Tag = d;
+                    MainListView.Items.Add(lvi);
+                }
+
+                foreach (var f in di.GetFiles())
+                {
+                    var lvi = new ListViewItem(f.Name, 1);
+                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
+                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
+                    object tag = f;
+                    if(f.Extension == ".img" || f.Extension == ".rpf")
+                    {
+                        tag = LoadArchive(f.FullName);
+                    }
+                    lvi.Tag = tag;
+                    MainListView.Items.Add(lvi);
+                }
             }
-
-            foreach(var f in di.GetFiles())
+            else if(t is ArchiveFile)
             {
-                var lvi = new ListViewItem(f.Name, 1);
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
-                lvi.Tag = f;
-                MainListView.Items.Add(lvi);
+                DisplayArchive(t as ArchiveFile);
             }
 
             UpdateMainStatusStrip();
@@ -84,17 +110,64 @@ namespace GTA3TOOLS
             AmountOfItemsInDirectoryLabel.Text = MainListView.Items.Count.ToString() + " Items";
             AmountOfItemsSelectedInListViewLabel.Text = MainListView.SelectedItems.Count.ToString() + " Items Selected";
         }
-
-        private void SelectTreeNodeFromDirectory(DirectoryInfo di)
+        
+        public virtual ArchiveFile LoadArchive(string filepath) { return null; }
+        public virtual void DisplayArchive(ArchiveFile arch) { }
+        
+        private void ViewTextFile(FileInfo file)
         {
-            foreach(TreeNode n in MainTreeView.SelectedNode.Nodes)
+            var fn = file.Name;
+            var path = file.FullName;
+            var data = File.ReadAllText(path);
+
+            MessageBox.Show(data);
+        }
+
+        public void ViewFile(FileInfo file)
+        {
+            switch(file.Extension)
             {
-                var ndi = n.Tag as DirectoryInfo;
-                if(ndi.FullName == di.FullName)
+                case ".dat":
+                    ViewTextFile(file);
+                    break;
+                case ".ini":
+                    ViewTextFile(file);
+                    break;
+                case ".txt":
+                    ViewTextFile(file);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public virtual void ViewFile(ArchiveFileEntry afe) { }
+
+        public void ViewItem(object tag)
+        {
+            if(tag is DirectoryInfo)
+            {
+                var di = tag as DirectoryInfo;
+                foreach(TreeNode n in MainTreeView.SelectedNode.Nodes)
                 {
-                    MainTreeView.SelectedNode = n;
-                    n.Expand();
+                    var ndi = n.Tag as DirectoryInfo;
+                    if(di.FullName == ndi.FullName)
+                    {
+                        MainTreeView.SelectedNode = n;
+                        return;
+                    }
                 }
+            }
+            else if(tag is ArchiveFile)
+            {
+                DisplayArchive(tag as ArchiveFile);
+            }
+            else if(tag is FileInfo)
+            {
+                ViewFile(tag as FileInfo);
+            }
+            else if(tag is ArchiveFileEntry)
+            {
+                ViewFile(tag as ArchiveFileEntry);
             }
         }
 
@@ -122,11 +195,7 @@ namespace GTA3TOOLS
 
             var si = MainListView.SelectedItems[0];
 
-            if (si.Tag is DirectoryInfo)
-            {
-                SelectTreeNodeFromDirectory(si.Tag as DirectoryInfo);
-            }
-
+            ViewItem(si.Tag);
         }
         private void MainListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {

@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="GTASA\" />
-    <Folder Include="GTA1\" />
     <Folder Include="GTA2\" />
     <Folder Include="GTA3\" />
     <Folder Include="GTAVC\" />
