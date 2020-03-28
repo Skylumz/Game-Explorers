@@ -11,6 +11,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//TODO
+//Multiline byte selection
+//Display Caret Offset Position
+//
+
 namespace RageCore.Common.Winforms
 {
     public partial class HexEditorForm : Form
@@ -26,17 +31,17 @@ namespace RageCore.Common.Winforms
             FilePath = filePath;
             Data = data;
 
-            UpdateHexTextBox();
-            UpdateForm(icon);
-
             HexTextBox.Font = new Font(FontFamily.GenericMonospace, HexTextBox.Font.Size); //makes everything aligned 
+            BytePerLineComboBox.SelectedIndex = 0;
+
+            UpdateForm(icon);
+            UpdateHexTextBox();
+            UpdatePropertyGrid();
         }
 
         private void UpdateForm(Icon icon)
         {
             Icon = icon;
-
-            FilePathStatusStripLabel.Text = "Loaded " + FilePath;
             this.Text = "Hex Editor - Skylumz - " + FileName;
         }
 
@@ -44,9 +49,9 @@ namespace RageCore.Common.Winforms
         {
             if (Data == null) { return; }
 
-            HexTextBox.Text = HexUtilties.ByteArrayToString(Data);
+            HexTextBox.Text = HexUtilties.ByteArrayToString(Data, int.Parse(BytePerLineComboBox.Text));
         }
-
+        
         private void UpdatePropertyGrid()
         {
             var selectedText = HexTextBox.SelectedText;
@@ -55,20 +60,27 @@ namespace RageCore.Common.Winforms
 
             if (selectedBytes == null) { selectedBytes = new byte[0]; }
             
-            var hb = new HexUtilties.HexByte(selectedBytes);
+            var hb = new HexUtilties.ByteObject(selectedBytes);
             SelectionPropertyGrid.SelectedObject = hb;
+            AmountOfBytesSelectedStatusStripLabel.Text = "Length: " + hb.Bytes.Length.ToString();
         }
+
         private void HexTextBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (HexTextBox.SelectedText.Replace(" ", string.Empty).Length % 2 == 0) { UpdatePropertyGrid(); }
         }
-
+        private void BytePerLineComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateHexTextBox();
+        }
+        
         //move to Utils/HexUtilties.cs?
         public static class HexUtilties
         {
-            public class HexByte
+            public class ByteObject
             {
                 public byte[] Bytes { get; set; }
+                public string Binary { get { try { return Convert.ToString(Bytes[0], 2).PadLeft(8, '0'); } catch { return "Invalid"; } } }
                 public string Int8 { get { try { return Bytes[0].ToString(); } catch { return "Invalid"; } } } //
                 public string Uint8 { get { try { return Bytes[0].ToString(); } catch { return "Invalid"; } } } //idk if this is the correct way to do this for unsigned or signed
                 public string Int16 { get { try { return BitConverter.ToInt16(Bytes, 0).ToString(); } catch { return "Invalid"; } } }
@@ -79,16 +91,16 @@ namespace RageCore.Common.Winforms
                 public string Uint64 { get { try { return BitConverter.ToUInt64(Bytes, 0).ToString(); } catch { return "Invalid"; } } }
                 public string Float { get { try { return BitConverter.ToSingle(Bytes, 0).ToString(); } catch { return "Invalid"; } } }
                 public string Double { get { try { return BitConverter.ToDouble(Bytes, 0).ToString(); } catch { return "Invalid"; } } }
-                public string ASCII { get { try { return Encoding.ASCII.GetString(Bytes); } catch { return "Invalid"; } } }
-                public string Unicode { get { try { return Encoding.Unicode.GetString(Bytes); } catch { return "Invalid"; } } }
+                public string ASCII { get { try { return Encoding.ASCII.GetString(Bytes) == string.Empty ? "Invalid" : Encoding.ASCII.GetString(Bytes); } catch { return "Invalid"; } } }
+                public string Unicode { get { try { return Encoding.Unicode.GetString(Bytes) == string.Empty ? "Invalid" : Encoding.Unicode.GetString(Bytes); } catch { return "Invalid"; } } }
 
-                public HexByte(byte[] bs)
+                public ByteObject(byte[] bs)
                 {
                     Bytes = bs;
                 }
             }
 
-            public static string ByteArrayToString(byte[] data, int lineOffset = 16, bool withOffsets = true, bool withDecodedText = true)
+            public static string ByteArrayToString(byte[] data, int bytePerLine = 16, bool withOffsets = true, bool withDecodedText = true)
             {
                 StringBuilder sb = new StringBuilder();
 
@@ -96,7 +108,7 @@ namespace RageCore.Common.Winforms
                 if (withOffsets)
                 {
                     string os = "Offset  ";
-                    for (int i = 0; i < lineOffset; i++)
+                    for (int i = 0; i < bytePerLine; i++)
                     {
                         os += " " + i.ToString("X2");
                     }
@@ -113,7 +125,7 @@ namespace RageCore.Common.Winforms
                 StringBuilder texStr = new StringBuilder();
                 for (int i = 0; i < data.Length; i++)
                 {
-                    if (i % lineOffset == 0)
+                    if (i % bytePerLine == 0)
                     {
                         hexStr.Append(texStr.ToString());
                         if (i != 0) { sb.AppendLine(hexStr.ToString()); }
@@ -161,5 +173,7 @@ namespace RageCore.Common.Winforms
                 }
             }
         }
+
+        
     }
 }
