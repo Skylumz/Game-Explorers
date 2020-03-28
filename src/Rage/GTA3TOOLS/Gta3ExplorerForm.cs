@@ -1,17 +1,18 @@
-﻿using GTA3TOOLS.Utils;
-using RageCore.Common.GameFiles;
-using RageCore.GTA1.GameFiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using RageCore.Common.Utils;
+using RageCore.Common.GameFiles;
+using RageCore.GTA1.GameFiles;
+using RageCore.Common.Winforms;
 
 namespace GTA3TOOLS
 {
-    public partial class Gta3ExplorerForm : GTA3TOOLS.ExplorerForm
+    public partial class Gta3ExplorerForm : ExplorerForm
     {
         public Gta3ExplorerForm(GTAPATH gp) : base(gp)
         {

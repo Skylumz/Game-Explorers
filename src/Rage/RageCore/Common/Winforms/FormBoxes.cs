@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GTA3TOOLS.FormResources
+namespace RageCore.Common.Winforms
 {
     public class FormBoxes
     {

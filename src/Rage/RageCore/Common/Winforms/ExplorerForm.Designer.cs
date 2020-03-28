@@ -1,4 +1,4 @@
-﻿namespace GTA3TOOLS
+﻿namespace RageCore.Common.Winforms
 {
     partial class ExplorerForm
     {

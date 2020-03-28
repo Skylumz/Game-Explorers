@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RageCore", "RageCore\RageCore.csproj", "{1A5B8A23-7789-48DE-8299-01E59C1C5590}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTA3TOOLS", "GTA3TOOLS\GTA3TOOLS.csproj", "{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RageCore", "RageCore\RageCore.csproj", "{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A5B8A23-7789-48DE-8299-01E59C1C5590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A5B8A23-7789-48DE-8299-01E59C1C5590}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A5B8A23-7789-48DE-8299-01E59C1C5590}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A5B8A23-7789-48DE-8299-01E59C1C5590}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

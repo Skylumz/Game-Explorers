@@ -1,13 +1,13 @@
-﻿using System;
+﻿using RageCore.Common.Winforms;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GTA3TOOLS.FormResources;
 
-namespace GTA3TOOLS.Utils
+namespace RageCore.Common.Utils
 {
     public class GTAPATH
     {

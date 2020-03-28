@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 
-namespace GTA3TOOLS.Utils
+namespace RageCore.Common.Utils
 {
     public static class ApplicationSettings
     {

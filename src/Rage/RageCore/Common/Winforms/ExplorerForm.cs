@@ -1,5 +1,5 @@
-﻿using GTA3TOOLS.Utils;
-using RageCore.Common.GameFiles;
+﻿using RageCore.Common.GameFiles;
+using RageCore.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GTA3TOOLS
+namespace RageCore.Common.Winforms
 {
     public partial class ExplorerForm : Form
     {
@@ -113,6 +113,48 @@ namespace GTA3TOOLS
         public virtual ArchiveFile LoadArchive(string filepath) { return null; }
         public virtual void DisplayArchive(ArchiveFile arch) { }
 
+        public void ViewItem(object tag)
+        {
+            if (tag is DirectoryInfo)
+            {
+                var di = tag as DirectoryInfo;
+                foreach (TreeNode n in MainTreeView.SelectedNode.Nodes)
+                {
+                    var ndi = n.Tag as DirectoryInfo;
+                    if (di.FullName == ndi.FullName)
+                    {
+                        MainTreeView.SelectedNode = n;
+                        return;
+                    }
+                }
+            }
+            else if (tag is ArchiveFile)
+            {
+                DisplayArchive(tag as ArchiveFile);
+            }
+            else if (tag is FileInfo)
+            {
+                ViewFile(tag as FileInfo);
+            }
+            else if (tag is ArchiveFileEntry)
+            {
+                ViewFile(tag as ArchiveFileEntry);
+            }
+        }
+
+        public virtual void ViewFile(ArchiveFileEntry afe) { }
+        public void ViewFile(FileInfo file)
+        {
+            var filepath = file.FullName;
+            var data = File.ReadAllBytes(filepath);
+            switch (file.Extension)
+            {
+                default:
+                    ViewHexFile(filepath, data);
+                    break;
+            }
+        }
+
         public void ViewTextFile(string filepath, byte[] data)
         {
             var name = Path.GetFileName(filepath);
@@ -120,47 +162,10 @@ namespace GTA3TOOLS
 
             MessageBox.Show(text);
         }
-
-        public void ViewFile(FileInfo file)
+        public void ViewHexFile(string filepath, byte[] data)
         {
-            var filepath = file.FullName;
-            var data = File.ReadAllBytes(filepath);
-            switch(file.Extension)
-            {
-                default:
-                    ViewTextFile(filepath, data);
-                    break;
-            }
-        }
-        public virtual void ViewFile(ArchiveFileEntry afe) { }
-
-        public void ViewItem(object tag)
-        {
-            if(tag is DirectoryInfo)
-            {
-                var di = tag as DirectoryInfo;
-                foreach(TreeNode n in MainTreeView.SelectedNode.Nodes)
-                {
-                    var ndi = n.Tag as DirectoryInfo;
-                    if(di.FullName == ndi.FullName)
-                    {
-                        MainTreeView.SelectedNode = n;
-                        return;
-                    }
-                }
-            }
-            else if(tag is ArchiveFile)
-            {
-                DisplayArchive(tag as ArchiveFile);
-            }
-            else if(tag is FileInfo)
-            {
-                ViewFile(tag as FileInfo);
-            }
-            else if(tag is ArchiveFileEntry)
-            {
-                ViewFile(tag as ArchiveFileEntry);
-            }
+            var hf = new HexEditorForm(this.Icon, filepath, data);
+            hf.Show();
         }
 
         private void GoBack()
