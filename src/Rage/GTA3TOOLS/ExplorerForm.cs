@@ -31,7 +31,6 @@ namespace GTA3TOOLS
                 InitExplorer();
             }
         }
-        
 
         private void InitExplorer()
         {
@@ -113,30 +112,23 @@ namespace GTA3TOOLS
         
         public virtual ArchiveFile LoadArchive(string filepath) { return null; }
         public virtual void DisplayArchive(ArchiveFile arch) { }
-        
-        private void ViewTextFile(FileInfo file)
-        {
-            var fn = file.Name;
-            var path = file.FullName;
-            var data = File.ReadAllText(path);
 
-            MessageBox.Show(data);
+        public void ViewTextFile(string filepath, byte[] data)
+        {
+            var name = Path.GetFileName(filepath);
+            var text = Encoding.UTF8.GetString(data);
+
+            MessageBox.Show(text);
         }
 
         public void ViewFile(FileInfo file)
         {
+            var filepath = file.FullName;
+            var data = File.ReadAllBytes(filepath);
             switch(file.Extension)
             {
-                case ".dat":
-                    ViewTextFile(file);
-                    break;
-                case ".ini":
-                    ViewTextFile(file);
-                    break;
-                case ".txt":
-                    ViewTextFile(file);
-                    break;
                 default:
+                    ViewTextFile(filepath, data);
                     break;
             }
         }

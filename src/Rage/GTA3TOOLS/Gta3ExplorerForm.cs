@@ -33,12 +33,30 @@ namespace GTA3TOOLS
             var img = arch as ImgFile1;
             foreach(var entry in img.DirectoryEntries)
             {
+               // MessageBox.Show(entry.Offset.ToString() + " " + entry.Size.ToString());
+
                 var lvi = new ListViewItem(entry.Name, 1);
                 var type = entry.Name.Split('.')[1].ToUpper() + " FILE";
                 lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, type));
-                lvi.Tag = entry.Data;
+                lvi.Tag = entry;
                 MainListView.Items.Add(lvi);
             }
+        }
+
+        public override void ViewFile(ArchiveFileEntry afe)
+        {
+            var entry = afe as Img1DirectoryEntry;
+
+            var filepath = entry.Name;
+            var data = entry.Data;
+
+            switch(entry.Extension)
+            {
+                default:
+                    ViewTextFile(filepath, data);
+                    break;
+            }
+
         }
     }
 }
