@@ -229,7 +229,8 @@ namespace RageCore.Common.Winforms
             }
             else
             {
-                MessageBox.Show("Searching in a archive is not possible yet!");
+                var arch = selectedTag as ArchiveFile;
+                SearchArchive(arch, ref searchItems);
             }
 
             if(searchItems.Count >= 1)
@@ -245,7 +246,7 @@ namespace RageCore.Common.Winforms
                 MessageBox.Show("Nothing found!");
             }
         }
-        public virtual List<ListViewItem> SearchArchive(ArchiveFile af) { return new List<ListViewItem>(); }
+        public virtual List<ListViewItem> SearchArchive(ArchiveFile af, ref List<ListViewItem> searchItems) { return new List<ListViewItem>(); }
         private void SearchDirectoryInfo(DirectoryInfo SearchDI, ref List<ListViewItem> searchItems)
         {
             var searchString = SearchTextBox.Text.ToLower();
@@ -258,11 +259,7 @@ namespace RageCore.Common.Winforms
                 }
                 if(file.Name.Contains(".rpf") || file.Name.Contains(".img"))
                 {
-                    MessageBox.Show(file.FullName);
-                    foreach(var item in SearchArchive(LoadArchive(file.FullName)))
-                    {
-                        searchItems.Add(item);
-                    }
+                    SearchArchive(LoadArchive(file.FullName), ref searchItems);
                 }
             }
 
