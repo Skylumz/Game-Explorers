@@ -19,6 +19,25 @@ namespace RageCore.Common.Winforms
 
         private TreeNode PreviousTreeNode;
 
+        //kinda wacky
+        private string CurrentPath 
+        { 
+            get 
+            {
+                var tag = MainTreeView.SelectedNode.Tag;
+                if(tag is DirectoryInfo)
+                {
+                    var di = tag as DirectoryInfo;
+                    return di.FullName;
+                }
+                else
+                {
+                    var arch = tag as ArchiveFile;
+                    return arch.FilePath;
+                }
+            } 
+        }
+
         public ExplorerForm(GTAPATH gp)
         {
             if (gp == null) { return; }
@@ -34,12 +53,16 @@ namespace RageCore.Common.Winforms
 
         private void InitExplorer()
         {
+            MainTreeView.Nodes.Clear();
+            MainListView.Items.Clear();
+
             var di = new DirectoryInfo(GtaPath.FolderPath);
             var root = new TreeNode(di.Name, 0, 0);
             root.Tag = di;
             GetAllFolders(ref root, di, "*");
             root.Expand();
             MainTreeView.Nodes.Add(root);
+            MainTreeView.SelectedNode = root;
         }
         
         private void GetAllFolders(ref TreeNode root, DirectoryInfo dir, string searchPattern)
@@ -63,6 +86,26 @@ namespace RageCore.Common.Winforms
             }
         }
         
+        private ListViewItem ListViewItemFromFile(FileInfo f)
+        {
+            var lvi = new ListViewItem(f.Name, 1);
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
+            object tag = f;
+            if (f.Extension == ".img" || f.Extension == ".rpf")
+            {
+                tag = LoadArchive(f.FullName);
+            }
+            lvi.Tag = tag;
+            return lvi;
+        }
+        private ListViewItem ListViewItemFromDirectory(DirectoryInfo d)
+        {
+            var lvi = new ListViewItem(d.Name, 0);
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
+            lvi.Tag = d;
+            return lvi;
+        }
         private void UpdateMainListView()
         {
             MainListView.Items.Clear();
@@ -75,24 +118,12 @@ namespace RageCore.Common.Winforms
 
                 foreach (var d in di.GetDirectories())
                 {
-                    var lvi = new ListViewItem(d.Name, 0);
-                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
-                    lvi.Tag = d;
-                    MainListView.Items.Add(lvi);
+                    MainListView.Items.Add(ListViewItemFromDirectory(d));
                 }
 
                 foreach (var f in di.GetFiles())
                 {
-                    var lvi = new ListViewItem(f.Name, 1);
-                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
-                    lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
-                    object tag = f;
-                    if(f.Extension == ".img" || f.Extension == ".rpf")
-                    {
-                        tag = LoadArchive(f.FullName);
-                    }
-                    lvi.Tag = tag;
-                    MainListView.Items.Add(lvi);
+                    MainListView.Items.Add(ListViewItemFromFile(f));
                 }
             }
             else if(t is ArchiveFile)
@@ -100,6 +131,7 @@ namespace RageCore.Common.Winforms
                 DisplayArchive(t as ArchiveFile);
             }
 
+            PathTextBox.Text = CurrentPath;
             UpdateMainStatusStrip();
         }
         
@@ -186,6 +218,60 @@ namespace RageCore.Common.Winforms
             hf.Show();
         }
 
+        private void Search()
+        {
+            var selectedTag = MainTreeView.SelectedNode.Tag;
+            var searchItems = new List<ListViewItem>();
+            if(selectedTag is DirectoryInfo)
+            {
+                var dir = selectedTag as DirectoryInfo;
+                SearchDirectoryInfo(dir, ref searchItems);
+            }
+            else
+            {
+                MessageBox.Show("Searching in a archive is not possible yet!");
+            }
+
+            if(searchItems.Count >= 1)
+            {
+                MainListView.Items.Clear();
+                foreach(var lvi in searchItems)
+                {
+                    MainListView.Items.Add(lvi);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nothing found!");
+            }
+        }
+        public virtual List<ListViewItem> SearchArchive(ArchiveFile af) { return new List<ListViewItem>(); }
+        private void SearchDirectoryInfo(DirectoryInfo SearchDI, ref List<ListViewItem> searchItems)
+        {
+            var searchString = SearchTextBox.Text.ToLower();
+            
+            foreach(var file in SearchDI.GetFiles())
+            {
+                if (file.Name.ToLower().Contains(searchString))
+                {
+                    searchItems.Add(ListViewItemFromFile(file));
+                }
+                if(file.Name.Contains(".rpf") || file.Name.Contains(".img"))
+                {
+                    MessageBox.Show(file.FullName);
+                    foreach(var item in SearchArchive(LoadArchive(file.FullName)))
+                    {
+                        searchItems.Add(item);
+                    }
+                }
+            }
+
+            foreach (var dir in SearchDI.GetDirectories())
+            {
+                SearchDirectoryInfo(dir, ref searchItems);
+            }
+        }
+
         private void GoBack()
         {
             MainTreeView.SelectedNode = PreviousTreeNode;
@@ -194,14 +280,11 @@ namespace RageCore.Common.Winforms
         private void MainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             UpdateMainListView();
+            SearchTextBox.Text = string.Empty;
         }
         private void MainTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             PreviousTreeNode = MainTreeView.SelectedNode;
-        }
-        private void TempBackToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GoBack();
         }
         private void MainListView_ItemActivate(object sender, EventArgs e)
         {
@@ -214,6 +297,28 @@ namespace RageCore.Common.Winforms
         private void MainListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             UpdateMainStatusStrip();
+        }
+        
+        private void GoBackButton_Click(object sender, EventArgs e)
+        {
+            GoBack();
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Search();
+            }
+        }
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            InitExplorer();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using RageCore.Common.Utils;
 using RageCore.Common.GameFiles;
-using RageCore.GTA1.GameFiles;
+using RageCore.GTA3.GameFiles;
 using RageCore.Common.Winforms;
 
 namespace GTA3TOOLS

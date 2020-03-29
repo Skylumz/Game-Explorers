@@ -3,9 +3,8 @@ using RageCore.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace RageCore.GTA1.GameFiles
+namespace RageCore.GTA3.GameFiles
 {
     public class ImgFile1 : ArchiveFile
     {
@@ -36,7 +35,7 @@ namespace RageCore.GTA1.GameFiles
             {
                 Img1DirectoryEntry e = new Img1DirectoryEntry();
                 e.Read(dirbr);
-                e.Data = br.ReadBytes((int)e.Size);
+                e.Data = br.ReadBytes((int)e.Size * 2048);
                 DirectoryEntries.Add(e);
             }
         }
