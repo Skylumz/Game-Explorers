@@ -19,6 +19,16 @@ namespace GTA3TOOLS
             InitializeComponent();
         }
 
+        //make virtual in base ?
+        private ListViewItem ListViewItemFromArchiveFileEntry(Img1DirectoryEntry entry)
+        {
+            var lvi = new ListViewItem(entry.Name, 1);
+            var type = entry.Name.Split('.')[1].ToUpper() + " FILE";
+            lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, type));
+            lvi.Tag = entry;
+            return lvi;
+        }
+
         public override ArchiveFile LoadArchive(string filepath)
         {
             ImgFile1 img = new ImgFile1(filepath);
@@ -34,14 +44,11 @@ namespace GTA3TOOLS
             var img = arch as ImgFile1;
             foreach(var entry in img.DirectoryEntries)
             {
-               // MessageBox.Show(entry.Offset.ToString() + " " + entry.Size.ToString());
-
-                var lvi = new ListViewItem(entry.Name, 1);
-                var type = entry.Name.Split('.')[1].ToUpper() + " FILE";
-                lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, type));
-                lvi.Tag = entry;
-                MainListView.Items.Add(lvi);
+                MainListView.Items.Add(ListViewItemFromArchiveFileEntry(entry));
             }
+
+            //really dont want path text box public
+            PathTextBox.Text = arch.FilePath;
         }
 
         public override void ViewFile(ArchiveFileEntry afe)
@@ -58,6 +65,19 @@ namespace GTA3TOOLS
                     break;
             }
 
+        }
+
+        public override void SearchArchive(ArchiveFile af, string searchString, ref List<ListViewItem> searchItems)
+        {
+            var img = af as ImgFile1;
+
+            foreach (var afe in img.DirectoryEntries)
+            {
+                if (afe.Name.ToLower().Contains(searchString))
+                {
+                    searchItems.Add(ListViewItemFromArchiveFileEntry(afe));
+                }
+            }
         }
     }
 }

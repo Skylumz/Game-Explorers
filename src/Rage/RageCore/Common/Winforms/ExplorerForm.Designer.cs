@@ -286,6 +286,6 @@
         private System.Windows.Forms.ToolStripButton GoBackButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton RefreshButton;
-        private System.Windows.Forms.ToolStripTextBox PathTextBox;
+        public System.Windows.Forms.ToolStripTextBox PathTextBox;
     }
 }

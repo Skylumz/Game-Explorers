@@ -222,15 +222,16 @@ namespace RageCore.Common.Winforms
         {
             var selectedTag = MainTreeView.SelectedNode.Tag;
             var searchItems = new List<ListViewItem>();
+            var searchString = SearchTextBox.Text.ToLower();
             if(selectedTag is DirectoryInfo)
             {
                 var dir = selectedTag as DirectoryInfo;
-                SearchDirectoryInfo(dir, ref searchItems);
+                SearchDirectoryInfo(dir, searchString, ref searchItems);
             }
             else
             {
                 var arch = selectedTag as ArchiveFile;
-                SearchArchive(arch, ref searchItems);
+                SearchArchive(arch, searchString, ref searchItems);
             }
 
             if(searchItems.Count >= 1)
@@ -240,17 +241,16 @@ namespace RageCore.Common.Winforms
                 {
                     MainListView.Items.Add(lvi);
                 }
+                PathTextBox.Text = "Search Items";
             }
             else
             {
                 MessageBox.Show("Nothing found!");
             }
         }
-        public virtual List<ListViewItem> SearchArchive(ArchiveFile af, ref List<ListViewItem> searchItems) { return new List<ListViewItem>(); }
-        private void SearchDirectoryInfo(DirectoryInfo SearchDI, ref List<ListViewItem> searchItems)
+        public virtual void SearchArchive(ArchiveFile af, string searchString, ref List<ListViewItem> searchItems) { }
+        private void SearchDirectoryInfo(DirectoryInfo SearchDI, string searchString, ref List<ListViewItem> searchItems)
         {
-            var searchString = SearchTextBox.Text.ToLower();
-            
             foreach(var file in SearchDI.GetFiles())
             {
                 if (file.Name.ToLower().Contains(searchString))
@@ -259,13 +259,13 @@ namespace RageCore.Common.Winforms
                 }
                 if(file.Name.Contains(".rpf") || file.Name.Contains(".img"))
                 {
-                    SearchArchive(LoadArchive(file.FullName), ref searchItems);
+                    SearchArchive(LoadArchive(file.FullName), searchString, ref searchItems);
                 }
             }
 
             foreach (var dir in SearchDI.GetDirectories())
             {
-                SearchDirectoryInfo(dir, ref searchItems);
+                SearchDirectoryInfo(dir, searchString, ref searchItems);
             }
         }
 
