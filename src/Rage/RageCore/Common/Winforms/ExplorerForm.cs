@@ -147,24 +147,42 @@ namespace RageCore.Common.Winforms
         {
             var filepath = file.FullName;
             var data = File.ReadAllBytes(filepath);
-            switch (file.Extension)
+            switch (file.Extension.Replace(".", string.Empty).ToLower())
             {
+                case "dat":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "ini":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "txt":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "cfg":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "xml":
+                    ViewXmlFile(filepath, data);
+                    break;
                 default:
                     ViewHexFile(filepath, data);
                     break;
             }
         }
 
+        public void ViewXmlFile(string filepath, byte[] data)
+        {
+            var tf = new TextEditorForm(this, filepath, data, true);
+            tf.Show();
+        }
         public void ViewTextFile(string filepath, byte[] data)
         {
-            var name = Path.GetFileName(filepath);
-            var text = Encoding.UTF8.GetString(data);
-
-            MessageBox.Show(text);
+            var tf = new TextEditorForm(this, filepath, data);
+            tf.Show();
         }
         public void ViewHexFile(string filepath, byte[] data)
         {
-            var hf = new HexEditorForm(this.Icon, filepath, data);
+            var hf = new HexEditorForm(this, filepath, data);
             hf.Show();
         }
 
@@ -173,7 +191,6 @@ namespace RageCore.Common.Winforms
             MainTreeView.SelectedNode = PreviousTreeNode;
         }
 
-        //control functions
         private void MainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             UpdateMainListView();

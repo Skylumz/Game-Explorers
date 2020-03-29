@@ -24,25 +24,25 @@ namespace RageCore.Common.Winforms
         private string FileName { get { return Path.GetFileName(FilePath); } }
         private byte[] Data { get; set; }
 
-        public HexEditorForm(Icon icon, string filePath, byte[] data)
+        public HexEditorForm(ExplorerForm ef, string fp, byte[] data)
         {
             InitializeComponent();
 
-            FilePath = filePath;
+            Owner = ef;
+            FilePath = fp;
             Data = data;
 
-            HexTextBox.Font = new Font(FontFamily.GenericMonospace, HexTextBox.Font.Size); //makes everything aligned 
-            BytePerLineComboBox.SelectedIndex = 0;
-
-            UpdateForm(icon);
+            InitForm();
             UpdateHexTextBox();
             UpdatePropertyGrid();
         }
 
-        private void UpdateForm(Icon icon)
+        private void InitForm()
         {
-            Icon = icon;
-            this.Text = "Hex Editor - Skylumz - " + FileName;
+            Icon = Owner.Icon;
+            Text = "Hex Editor - Skylumz - " + FileName;
+            HexTextBox.Font = new Font(FontFamily.GenericMonospace, HexTextBox.Font.Size); //makes everything aligned 
+            BytePerLineComboBox.SelectedIndex = 0;
         }
 
         private void UpdateHexTextBox()
