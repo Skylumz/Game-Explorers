@@ -16,7 +16,6 @@ namespace RageCore.Common.Winforms
     public partial class ExplorerForm : Form
     {
         public GTAPATH GtaPath;
-
         private TreeNode PreviousTreeNode;
 
         //kinda wacky
@@ -174,7 +173,7 @@ namespace RageCore.Common.Winforms
             }
         }
 
-        public virtual void ViewFile(ArchiveFileEntry afe) { }
+        public virtual void ViewFile(ArchiveFileEntry afe, bool hex = false) { }
         public void ViewFile(FileInfo file)
         {
             var filepath = file.FullName;
@@ -274,6 +273,31 @@ namespace RageCore.Common.Winforms
             MainTreeView.SelectedNode = PreviousTreeNode;
         }
 
+        public virtual void ExtractArchiveFile(ArchiveFileEntry afe) { }
+        private void ExtractFile(FileInfo fi)
+        {
+            var data = File.ReadAllBytes(fi.FullName);
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if(fbd.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllBytes(fbd.SelectedPath + "\\" + fi.Name, data);
+            }
+        }
+        private void Extract()
+        {
+            var items = MainListView.SelectedItems;
+            if (items.Count == 0) { return; }
+            else if (items.Count > 1) { throw new NotImplementedException("Multiple file extractions not possible yet"); }
+            else
+            {
+                var item = items[0].Tag;
+                if(item is DirectoryInfo) { throw new NotImplementedException("Cannot extract directorys yet!"); }
+                if(item is FileInfo) { ExtractFile(item as FileInfo); }
+                if(item is ArchiveFile) { ArchiveFile af = item as ArchiveFile; FileInfo fi = new FileInfo(af.FilePath); ExtractFile(fi); }
+                if(item is ArchiveFileEntry) { ExtractArchiveFile(item as ArchiveFileEntry); }
+            }
+        }
+
         private void MainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             UpdateMainListView();
@@ -316,6 +340,22 @@ namespace RageCore.Common.Winforms
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             InitExplorer();
+        }
+
+        private void extractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Extract();
+        }
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var items = MainListView.SelectedItems;
+            if(items.Count == 0) { return; }
+            if(items.Count > 1) { return; }
+            var item = items[0].Tag;
+            if(item is DirectoryInfo) { return; }
+            if(item is FileInfo) { var fi = item as FileInfo; ViewHexFile(fi.FullName, File.ReadAllBytes(fi.FullName)); }
+            if(item is ArchiveFileEntry) { var afe = item as ArchiveFileEntry; ViewFile(afe, true); }
         }
     }
 }

@@ -42,20 +42,24 @@
             this.FileNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.extractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.GoBackButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.PathTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.SearchTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.SearchButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.GoBackButton = new System.Windows.Forms.ToolStripButton();
-            this.PathTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuStrip.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
+            this.MainContextMenuStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,6 +147,7 @@
             this.FileNameColumnHeader,
             this.TypeColumnHeader,
             this.SizeColumnHeader});
+            this.MainListView.ContextMenuStrip = this.MainContextMenuStrip;
             this.MainListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainListView.HideSelection = false;
             this.MainListView.Location = new System.Drawing.Point(0, 0);
@@ -170,6 +175,21 @@
             this.SizeColumnHeader.Text = "Size";
             this.SizeColumnHeader.Width = 106;
             // 
+            // MainContextMenuStrip
+            // 
+            this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractToolStripMenuItem,
+            this.viewToolStripMenuItem});
+            this.MainContextMenuStrip.Name = "MainContextMenuStrip";
+            this.MainContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+            // 
+            // extractToolStripMenuItem
+            // 
+            this.extractToolStripMenuItem.Name = "extractToolStripMenuItem";
+            this.extractToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.extractToolStripMenuItem.Text = "Extract";
+            this.extractToolStripMenuItem.Click += new System.EventHandler(this.extractToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -185,6 +205,42 @@
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // GoBackButton
+            // 
+            this.GoBackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.GoBackButton.Image = ((System.Drawing.Image)(resources.GetObject("GoBackButton.Image")));
+            this.GoBackButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.GoBackButton.Name = "GoBackButton";
+            this.GoBackButton.Size = new System.Drawing.Size(23, 22);
+            this.GoBackButton.Text = "toolStripButton1";
+            this.GoBackButton.Click += new System.EventHandler(this.GoBackButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // PathTextBox
+            // 
+            this.PathTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.PathTextBox.Name = "PathTextBox";
+            this.PathTextBox.Size = new System.Drawing.Size(575, 25);
+            // 
+            // RefreshButton
+            // 
+            this.RefreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
+            this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(23, 22);
+            this.RefreshButton.Text = "toolStripButton1";
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // SearchTextBox
             // 
@@ -203,41 +259,12 @@
             this.SearchButton.Text = "toolStripButton1";
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
-            // toolStripSeparator1
+            // viewToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // GoBackButton
-            // 
-            this.GoBackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.GoBackButton.Image = ((System.Drawing.Image)(resources.GetObject("GoBackButton.Image")));
-            this.GoBackButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.GoBackButton.Name = "GoBackButton";
-            this.GoBackButton.Size = new System.Drawing.Size(23, 22);
-            this.GoBackButton.Text = "toolStripButton1";
-            this.GoBackButton.Click += new System.EventHandler(this.GoBackButton_Click);
-            // 
-            // PathTextBox
-            // 
-            this.PathTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.PathTextBox.Name = "PathTextBox";
-            this.PathTextBox.Size = new System.Drawing.Size(575, 25);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // RefreshButton
-            // 
-            this.RefreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
-            this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RefreshButton.Name = "RefreshButton";
-            this.RefreshButton.Size = new System.Drawing.Size(23, 22);
-            this.RefreshButton.Text = "toolStripButton1";
-            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem.Text = "View Hex";
+            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
             // 
             // ExplorerForm
             // 
@@ -258,6 +285,7 @@
             this.MainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
             this.MainSplitContainer.ResumeLayout(false);
+            this.MainContextMenuStrip.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -287,5 +315,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton RefreshButton;
         public System.Windows.Forms.ToolStripTextBox PathTextBox;
+        private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem extractToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
     }
 }

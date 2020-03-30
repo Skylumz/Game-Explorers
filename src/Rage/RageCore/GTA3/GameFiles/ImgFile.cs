@@ -6,14 +6,13 @@ using System.IO;
 
 namespace RageCore.GTA3.GameFiles
 {
-    public class ImgFile1 : ArchiveFile
+    public class ImgFile : ArchiveFile
     {
         public int NumberOfDirectorys { get; set; }
         public List<Img1DirectoryEntry> DirectoryEntries { get; set;}
 
-        public ImgFile1(string filepath) : base(filepath)
+        public ImgFile(string filepath) : base(filepath)
         {
-            FilePath = filepath;
         }
 
         public override void Load()

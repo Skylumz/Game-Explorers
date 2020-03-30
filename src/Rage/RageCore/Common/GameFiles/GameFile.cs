@@ -14,5 +14,6 @@ namespace RageCore.Common.GameFiles
 
         public GameFile(string fp) { FilePath = fp; }
         public virtual void Load() { }
+        public virtual void Load(byte[] data) { }
     }
 }

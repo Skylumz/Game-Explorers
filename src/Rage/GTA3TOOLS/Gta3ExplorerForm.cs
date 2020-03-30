@@ -9,6 +9,7 @@ using RageCore.Common.Utils;
 using RageCore.Common.GameFiles;
 using RageCore.GTA3.GameFiles;
 using RageCore.Common.Winforms;
+using System.IO;
 
 namespace GTA3TOOLS
 {
@@ -31,7 +32,7 @@ namespace GTA3TOOLS
 
         public override ArchiveFile LoadArchive(string filepath)
         {
-            ImgFile1 img = new ImgFile1(filepath);
+            ImgFile img = new ImgFile(filepath);
             img.Load();
 
             return img;
@@ -41,7 +42,7 @@ namespace GTA3TOOLS
         {
             MainListView.Items.Clear();
 
-            var img = arch as ImgFile1;
+            var img = arch as ImgFile;
             foreach(var entry in img.DirectoryEntries)
             {
                 MainListView.Items.Add(ListViewItemFromArchiveFileEntry(entry));
@@ -51,17 +52,46 @@ namespace GTA3TOOLS
             PathTextBox.Text = arch.FilePath;
         }
 
-        public override void ViewFile(ArchiveFileEntry afe)
+        private void ViewTxdFile(string filepath, byte[] data)
+        {
+            TxdEditorForm tf = new TxdEditorForm(this, filepath, data);
+            tf.Show();
+        }
+        public override void ViewFile(ArchiveFileEntry afe, bool hex = false)
         {
             var entry = afe as Img1DirectoryEntry;
 
             var filepath = entry.Name;
             var data = entry.Data;
 
-            switch(entry.Extension)
+            if (hex)
             {
-                default:
+                ViewHexFile(filepath, data);
+                return;
+            }
+
+            switch(entry.Extension.Replace(".", string.Empty).ToLower())
+            {
+                case "txd":
+                    ViewTxdFile(filepath, data);
+                    break;
+                case "dat":
                     ViewTextFile(filepath, data);
+                    break;
+                case "ini":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "txt":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "cfg":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "xml":
+                    ViewXmlFile(filepath, data);
+                    break;
+                default:
+                    ViewHexFile(filepath, data);
                     break;
             }
 
@@ -69,7 +99,7 @@ namespace GTA3TOOLS
 
         public override void SearchArchive(ArchiveFile af, string searchString, ref List<ListViewItem> searchItems)
         {
-            var img = af as ImgFile1;
+            var img = af as ImgFile;
 
             foreach (var afe in img.DirectoryEntries)
             {
@@ -77,6 +107,16 @@ namespace GTA3TOOLS
                 {
                     searchItems.Add(ListViewItemFromArchiveFileEntry(afe));
                 }
+            }
+        }
+
+        public override void ExtractArchiveFile(ArchiveFileEntry afe)
+        {
+            var entry = afe as Img1DirectoryEntry;
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if(fbd.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllBytes(fbd.SelectedPath + "\\" + entry.Name, entry.Data);
             }
         }
     }
