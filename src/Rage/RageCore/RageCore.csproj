@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Common\GameFiles\ArchiveFile.cs" />
     <Compile Include="Common\GameFiles\GameFile.cs" />
+    <Compile Include="Common\GameFiles\RenderWareFile.cs" />
     <Compile Include="Common\Utils\ApplicationSettings.cs" />
     <Compile Include="Common\Utils\BinaryReaderUtilities.cs" />
     <Compile Include="Common\Utils\GTAPATH.cs" />
@@ -97,6 +98,7 @@
     <Folder Include="GTA2\" />
     <Folder Include="GTASA\" />
     <Folder Include="GTAVC\" />
+    <Folder Include="RenderWare\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
