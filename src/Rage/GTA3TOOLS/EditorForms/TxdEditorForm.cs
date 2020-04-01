@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using RageCore.RenderWare.Sections;
 //TODO
 //UI WORK - toolstrip and shit
 //Import texture
@@ -25,6 +25,7 @@ namespace GTA3TOOLS
         private byte[] Data { get; set; } //unnecessary? keeping to match other edit forms for now
 
         private TxdFile Txd { get; set; }
+        private string CurrentTextureName { get { return MainListView.SelectedItems[0].Text; } }
 
         //zoom, pan
         private new Point MouseDown;
@@ -51,17 +52,17 @@ namespace GTA3TOOLS
         {
             Icon = Owner.Icon;
             Text = "Txd Editor - Skylumz -" + FileName;
-            foreach(var texture in Txd.Textures)
+            foreach(var texture in Txd.TextureDictionary.Textures)
             {
                 MainListView.Items.Add(ListViewItemFromGtaTexture(texture.Key, texture.Value));
             }
             MainListView.Items[0].Selected = true;
 
             SelectionPropertyGrid.SelectedObject = Txd;
-            AmountOfTexturesLabel.Text = Txd.TextureCount == 1 ? Txd.TextureCount.ToString() + " Texture" : Txd.TextureCount.ToString() + " Textures";
+            AmountOfTexturesLabel.Text = Txd.TextureDictionary.TextureCount == 1 ? Txd.TextureDictionary.TextureCount.ToString() + " Texture" : Txd.TextureDictionary.TextureCount.ToString() + " Textures";
         }
 
-        private ListViewItem ListViewItemFromGtaTexture(string name, GtaTexture texture)
+        private ListViewItem ListViewItemFromGtaTexture(string name, Bitmap texture)
         {
             var lvi = new ListViewItem(name);
             lvi.Tag = texture;
@@ -72,19 +73,14 @@ namespace GTA3TOOLS
         {
             var items = MainListView.SelectedItems;
             if(items.Count > 1 || items.Count == 0) { return; }
-            var texture = items[0].Tag as GtaTexture;
+            var texture = items[0].Tag as Bitmap;
 
-            MainPictureBox.Image = texture.Bitmap;
+            MainPictureBox.Image = texture;
         }
 
         //debate
         private void UpdateSelectionPropertyGrid()
         {
-            //var items = MainListView.SelectedItems;
-            //if (items.Count > 1 || items.Count == 0) { return; }
-            //var texture = items[0].Tag as GtaTexture;
-
-            //SelectionPropertyGrid.SelectedObject = texture;
         }
 
         private void ExtractTexture()
@@ -95,7 +91,7 @@ namespace GTA3TOOLS
             if(fbd.ShowDialog() == DialogResult.OK)
             {
                 var bmp = new Bitmap(image);
-                bmp.Save(fbd.SelectedPath + "\\" + "test.bmp");
+                bmp.Save(fbd.SelectedPath + "\\" + CurrentTextureName + ".bmp");
             }
         }
 

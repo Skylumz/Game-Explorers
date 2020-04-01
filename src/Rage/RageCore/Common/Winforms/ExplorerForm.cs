@@ -19,12 +19,12 @@ namespace RageCore.Common.Winforms
         private TreeNode PreviousTreeNode;
 
         //kinda wacky
-        private string CurrentPath 
-        { 
-            get 
+        private string CurrentPath
+        {
+            get
             {
                 var tag = MainTreeView.SelectedNode.Tag;
-                if(tag is DirectoryInfo)
+                if (tag is DirectoryInfo)
                 {
                     var di = tag as DirectoryInfo;
                     return di.FullName;
@@ -34,7 +34,7 @@ namespace RageCore.Common.Winforms
                     var arch = tag as ArchiveFile;
                     return arch.FilePath;
                 }
-            } 
+            }
         }
 
         public ExplorerForm(GTAPATH gp)
@@ -42,7 +42,7 @@ namespace RageCore.Common.Winforms
             if (gp == null) { return; }
 
             GtaPath = gp;
-            if(GtaPath.HaveFolder())
+            if (GtaPath.HaveFolder())
             {
                 InitializeComponent();
                 this.Icon = Icon.ExtractAssociatedIcon(GtaPath.ExePath);
@@ -63,12 +63,12 @@ namespace RageCore.Common.Winforms
             MainTreeView.Nodes.Add(root);
             MainTreeView.SelectedNode = root;
         }
-        
+
         private void GetAllFolders(ref TreeNode root, DirectoryInfo dir, string searchPattern)
         {
-            foreach(FileInfo f in dir.GetFiles())
+            foreach (FileInfo f in dir.GetFiles())
             {
-                if(f.Extension == ".img" || f.Extension == ".rpf")
+                if (f.Extension == ".img" || f.Extension == ".rpf")
                 {
                     var afolder = new TreeNode(f.Name, 2, 2);
                     var archiveFile = LoadArchive(f.FullName);
@@ -84,7 +84,7 @@ namespace RageCore.Common.Winforms
                 GetAllFolders(ref folder, d, searchPattern);
             }
         }
-        
+
         private ListViewItem ListViewItemFromFile(FileInfo f)
         {
             var lvi = new ListViewItem(f.Name, 1);
@@ -111,7 +111,7 @@ namespace RageCore.Common.Winforms
 
             var t = MainTreeView.SelectedNode.Tag;
 
-            if(t is DirectoryInfo)
+            if (t is DirectoryInfo)
             {
                 var di = t as DirectoryInfo;
 
@@ -125,7 +125,7 @@ namespace RageCore.Common.Winforms
                     MainListView.Items.Add(ListViewItemFromFile(f));
                 }
             }
-            else if(t is ArchiveFile)
+            else if (t is ArchiveFile)
             {
                 DisplayArchive(t as ArchiveFile);
             }
@@ -133,14 +133,14 @@ namespace RageCore.Common.Winforms
             PathTextBox.Text = CurrentPath;
             UpdateMainStatusStrip();
         }
-        
+
         private void UpdateMainStatusStrip()
         {
             var di = MainTreeView.SelectedNode.Tag as DirectoryInfo;
             AmountOfItemsInDirectoryLabel.Text = MainListView.Items.Count.ToString() + " Items";
             AmountOfItemsSelectedInListViewLabel.Text = MainListView.SelectedItems.Count.ToString() + " Items Selected";
         }
-        
+
         public virtual ArchiveFile LoadArchive(string filepath) { return null; }
         public virtual void DisplayArchive(ArchiveFile arch) { }
 
@@ -178,6 +178,7 @@ namespace RageCore.Common.Winforms
         {
             var filepath = file.FullName;
             var data = File.ReadAllBytes(filepath);
+
             switch (file.Extension.Replace(".", string.Empty).ToLower())
             {
                 case "dat":
@@ -195,12 +196,19 @@ namespace RageCore.Common.Winforms
                 case "xml":
                     ViewXmlFile(filepath, data);
                     break;
+                case "txd":
+                    ViewTxdFile(filepath, data);
+                    break;
+                case "gxt":
+                    ViewGxtFile(filepath, data);
+                    break;
                 default:
                     ViewHexFile(filepath, data);
                     break;
             }
         }
 
+        public virtual void ViewTxdFile(string filepath, byte[] data) { }
         public void ViewXmlFile(string filepath, byte[] data)
         {
             var tf = new TextEditorForm(this, filepath, data, true);
@@ -216,7 +224,26 @@ namespace RageCore.Common.Winforms
             var hf = new HexEditorForm(this, filepath, data);
             hf.Show();
         }
+        public void ViewGxtFile(string filepath, byte[] data)
+        {
+            var gxt = new GxtFile(filepath, 3);
+            gxt.Load();
 
+            StringBuilder mes = new StringBuilder();
+
+            foreach(var t in gxt.TKEYS)
+            {
+                mes.Append(" new string: ");
+                
+                foreach (var ba in t.TDAT.Data)
+                {
+                    mes.Append(ba.ToString());
+                }
+
+            }
+
+            MessageBox.Show(mes.ToString());
+        }
         private void Search()
         {
             var selectedTag = MainTreeView.SelectedNode.Tag;

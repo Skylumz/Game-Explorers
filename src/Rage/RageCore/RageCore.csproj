@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Common\GameFiles\ArchiveFile.cs" />
     <Compile Include="Common\GameFiles\GameFile.cs" />
+    <Compile Include="Common\GameFiles\GxtFile.cs" />
     <Compile Include="Common\GameFiles\RenderWareFile.cs" />
     <Compile Include="Common\Utils\ApplicationSettings.cs" />
     <Compile Include="Common\Utils\BinaryReaderUtilities.cs" />
@@ -77,6 +78,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RenderWare\RenderWareSection.cs" />
+    <Compile Include="RenderWare\Sections\Extension.cs" />
+    <Compile Include="RenderWare\Sections\TextureDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Common\Winforms\ExplorerForm.resx">
@@ -98,7 +102,6 @@
     <Folder Include="GTA2\" />
     <Folder Include="GTASA\" />
     <Folder Include="GTAVC\" />
-    <Folder Include="RenderWare\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

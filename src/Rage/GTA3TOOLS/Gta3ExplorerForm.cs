@@ -52,7 +52,7 @@ namespace GTA3TOOLS
             PathTextBox.Text = arch.FilePath;
         }
 
-        private void ViewTxdFile(string filepath, byte[] data)
+        public override void ViewTxdFile(string filepath, byte[] data)
         {
             TxdEditorForm tf = new TxdEditorForm(this, filepath, data);
             tf.Show();

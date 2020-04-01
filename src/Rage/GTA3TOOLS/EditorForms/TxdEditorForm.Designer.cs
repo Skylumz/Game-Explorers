@@ -30,30 +30,30 @@
         {
             this.components = new System.ComponentModel.Container();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.AmountOfTexturesLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.MainPictureBox = new System.Windows.Forms.PictureBox();
-            this.MainListView = new System.Windows.Forms.ListView();
-            this.SelectionPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.AmountOfTexturesLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MainListView = new System.Windows.Forms.ListView();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.extractTextureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.SelectionPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.MainPictureBox = new System.Windows.Forms.PictureBox();
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // MainStatusStrip
@@ -65,6 +65,12 @@
             this.MainStatusStrip.Size = new System.Drawing.Size(800, 22);
             this.MainStatusStrip.TabIndex = 0;
             this.MainStatusStrip.Text = "statusStrip1";
+            // 
+            // AmountOfTexturesLabel
+            // 
+            this.AmountOfTexturesLabel.Name = "AmountOfTexturesLabel";
+            this.AmountOfTexturesLabel.Size = new System.Drawing.Size(135, 17);
+            this.AmountOfTexturesLabel.Text = "AmountOfTexturesLabel";
             // 
             // MainMenuStrip
             // 
@@ -109,43 +115,6 @@
             this.MainSplitContainer.SplitterDistance = 175;
             this.MainSplitContainer.TabIndex = 3;
             // 
-            // MainPictureBox
-            // 
-            this.MainPictureBox.Location = new System.Drawing.Point(127, 62);
-            this.MainPictureBox.Name = "MainPictureBox";
-            this.MainPictureBox.Size = new System.Drawing.Size(336, 253);
-            this.MainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.MainPictureBox.TabIndex = 0;
-            this.MainPictureBox.TabStop = false;
-            this.MainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseDown);
-            this.MainPictureBox.MouseEnter += new System.EventHandler(this.MainPictureBox_MouseEnter);
-            this.MainPictureBox.MouseLeave += new System.EventHandler(this.MainPictureBox_MouseLeave);
-            this.MainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseMove);
-            this.MainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseUp);
-            // 
-            // MainListView
-            // 
-            this.MainListView.ContextMenuStrip = this.MainContextMenuStrip;
-            this.MainListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainListView.HideSelection = false;
-            this.MainListView.Location = new System.Drawing.Point(3, 3);
-            this.MainListView.MultiSelect = false;
-            this.MainListView.Name = "MainListView";
-            this.MainListView.Size = new System.Drawing.Size(161, 347);
-            this.MainListView.TabIndex = 0;
-            this.MainListView.UseCompatibleStateImageBehavior = false;
-            this.MainListView.View = System.Windows.Forms.View.List;
-            this.MainListView.SelectedIndexChanged += new System.EventHandler(this.MainListView_SelectedIndexChanged);
-            // 
-            // SelectionPropertyGrid
-            // 
-            this.SelectionPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SelectionPropertyGrid.Location = new System.Drawing.Point(3, 3);
-            this.SelectionPropertyGrid.Name = "SelectionPropertyGrid";
-            this.SelectionPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.SelectionPropertyGrid.Size = new System.Drawing.Size(161, 347);
-            this.SelectionPropertyGrid.TabIndex = 0;
-            // 
             // MainTabControl
             // 
             this.MainTabControl.Controls.Add(this.tabPage1);
@@ -168,22 +137,19 @@
             this.tabPage1.Text = "Textures";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // MainListView
             // 
-            this.tabPage2.Controls.Add(this.SelectionPropertyGrid);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(167, 353);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Properties";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // AmountOfTexturesLabel
-            // 
-            this.AmountOfTexturesLabel.Name = "AmountOfTexturesLabel";
-            this.AmountOfTexturesLabel.Size = new System.Drawing.Size(135, 17);
-            this.AmountOfTexturesLabel.Text = "AmountOfTexturesLabel";
+            this.MainListView.ContextMenuStrip = this.MainContextMenuStrip;
+            this.MainListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainListView.HideSelection = false;
+            this.MainListView.Location = new System.Drawing.Point(3, 3);
+            this.MainListView.MultiSelect = false;
+            this.MainListView.Name = "MainListView";
+            this.MainListView.Size = new System.Drawing.Size(161, 347);
+            this.MainListView.TabIndex = 0;
+            this.MainListView.UseCompatibleStateImageBehavior = false;
+            this.MainListView.View = System.Windows.Forms.View.List;
+            this.MainListView.SelectedIndexChanged += new System.EventHandler(this.MainListView_SelectedIndexChanged);
             // 
             // MainContextMenuStrip
             // 
@@ -195,9 +161,43 @@
             // extractTextureToolStripMenuItem
             // 
             this.extractTextureToolStripMenuItem.Name = "extractTextureToolStripMenuItem";
-            this.extractTextureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.extractTextureToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.extractTextureToolStripMenuItem.Text = "Extract Texture";
             this.extractTextureToolStripMenuItem.Click += new System.EventHandler(this.extractTextureToolStripMenuItem_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.SelectionPropertyGrid);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(167, 353);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Properties";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // SelectionPropertyGrid
+            // 
+            this.SelectionPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SelectionPropertyGrid.Location = new System.Drawing.Point(3, 3);
+            this.SelectionPropertyGrid.Name = "SelectionPropertyGrid";
+            this.SelectionPropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            this.SelectionPropertyGrid.Size = new System.Drawing.Size(161, 347);
+            this.SelectionPropertyGrid.TabIndex = 0;
+            // 
+            // MainPictureBox
+            // 
+            this.MainPictureBox.Location = new System.Drawing.Point(127, 62);
+            this.MainPictureBox.Name = "MainPictureBox";
+            this.MainPictureBox.Size = new System.Drawing.Size(336, 253);
+            this.MainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.MainPictureBox.TabIndex = 0;
+            this.MainPictureBox.TabStop = false;
+            this.MainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseDown);
+            this.MainPictureBox.MouseEnter += new System.EventHandler(this.MainPictureBox_MouseEnter);
+            this.MainPictureBox.MouseLeave += new System.EventHandler(this.MainPictureBox_MouseLeave);
+            this.MainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseMove);
+            this.MainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseUp);
             // 
             // TxdEditorForm
             // 
@@ -218,11 +218,11 @@
             this.MainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
             this.MainSplitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
             this.MainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.MainContextMenuStrip.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

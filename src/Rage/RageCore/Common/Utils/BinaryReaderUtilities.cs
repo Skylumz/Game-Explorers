@@ -20,5 +20,15 @@ namespace RageCore.Common.Utils
             }
             return result;
         }
+
+        public static string ReadString(BinaryReader br, int stringLength)
+        {
+            string result = "";
+            for (int i = 0; i < stringLength; i++)
+            {
+                result += br.ReadChar().ToString();
+            }
+            return result;
+        }
     }
 }
