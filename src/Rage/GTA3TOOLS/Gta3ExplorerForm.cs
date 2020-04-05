@@ -52,6 +52,18 @@ namespace GTA3TOOLS
             PathTextBox.Text = arch.FilePath;
         }
 
+        public void ViewDffFile(string filepath, byte[] data)
+        {
+            var dff = new DffFile(filepath);
+            dff.Load(data);
+
+            //Form f = new Form();
+            //PropertyGrid p = new PropertyGrid();
+            //p.Dock = DockStyle.Fill;
+            //p.SelectedObject = dff;
+            //f.Controls.Add(p);
+            //f.Show();
+        }
         public override void ViewTxdFile(string filepath, byte[] data)
         {
             TxdEditorForm tf = new TxdEditorForm(this, filepath, data);
@@ -72,6 +84,9 @@ namespace GTA3TOOLS
 
             switch(entry.Extension.Replace(".", string.Empty).ToLower())
             {
+                case "dff":
+                    ViewDffFile(filepath, data);
+                    break;
                 case "txd":
                     ViewTxdFile(filepath, data);
                     break;

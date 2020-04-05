@@ -18,7 +18,7 @@ namespace RageCore.GTA3.GameFiles
         public override void Load(byte[] data)
         {
             TextureDictionary = new TextureDictionary();
-            TextureDictionary.Read(new BinaryReader(new MemoryStream(data)));
+            TextureDictionary.Read(new BinaryReader(new MemoryStream(data)), null);
         }
     }
 }

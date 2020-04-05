@@ -4,20 +4,76 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace RageCore.RenderWare
 {
+    [TypeConverter(typeof(ExpandableObjectConverter))]   
     public class RenderWareSection
     {
         public SectionType Type { get; set; }
-        public Int32 Size { get; set; }
-        public Int32 Version { get; set; }
+        public int Size { get; set; }
+        public int LibraryID { get; set; }
+        public int Version { get { return GetVersion(); } }
+        public int Build { get { return GetBuild(); } }
 
-        public virtual void Read(BinaryReader br) 
+        public RenderWareSection Parent { get; set; }
+        
+        public virtual void Read(BinaryReader br, RenderWareSection p) 
         {
             Type = (SectionType)br.ReadInt32(); //section type
             Size = br.ReadInt32();
-            Version = br.ReadInt32();
+            LibraryID = br.ReadInt32();
+            Parent = p;
+        }
+
+        //work on later :P
+        public virtual string DumpTree(int level)
+        {
+            StringBuilder sb = new StringBuilder();
+            level++;
+            string tab = "";
+            for (int i = 0; i < level; i++)
+            {
+                tab += "\t";
+            }
+            string header = tab + "Type: " + Type.ToString() + " Size: " + Size.ToString() + " LibraryID: " + LibraryID.ToString();
+            sb.AppendLine(header);
+            sb.AppendLine(tab + "{");
+            //if (Parent != null) { sb.AppendLine(tab + Parent.DumpTree(level)); }
+            //foreach(var p in GetType().GetProperties())
+            //{
+            //    if(p.GetValue(this).GetType().BaseType == typeof(RenderWareSection)) 
+            //    { 
+            //        //var obj = p.GetValue(this) as RenderWareSection;
+            //        //sb.AppendLine(obj.ToString());
+            //    }
+            //    if(p.Name == "Parent" || p.Name == "Version" || p.Name == "Build") { continue; }
+            //    //sb.AppendLine(tab + "\t" + p.Name + " Value:" + p.GetValue(this));
+            //}
+
+            sb.AppendLine(tab + "}");
+
+            return sb.ToString();
+        }
+
+        private int GetVersion()
+        {
+            if ((LibraryID & 0xFFFF0000) != 0)
+            {
+                return (LibraryID >> 14 & 0x3FF00) + 0x30000 | (LibraryID >> 16 & 0x3F);
+            }
+            else { return LibraryID << 8; }
+        }
+
+        private int GetBuild()
+        {
+            if ((LibraryID & 0xFFFF0000) != 0)
+            {
+                return LibraryID & 0xFFFF;
+            }
+            else { return 0; }
         }
     }
 

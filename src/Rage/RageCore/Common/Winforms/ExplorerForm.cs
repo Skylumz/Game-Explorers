@@ -1,5 +1,7 @@
 ﻿using RageCore.Common.GameFiles;
 using RageCore.Common.Utils;
+using RageCore.GTA3.GameFiles;
+using RageCore.RenderWare.Sections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -199,9 +201,6 @@ namespace RageCore.Common.Winforms
                 case "txd":
                     ViewTxdFile(filepath, data);
                     break;
-                case "gxt":
-                    ViewGxtFile(filepath, data);
-                    break;
                 default:
                     ViewHexFile(filepath, data);
                     break;
@@ -224,26 +223,7 @@ namespace RageCore.Common.Winforms
             var hf = new HexEditorForm(this, filepath, data);
             hf.Show();
         }
-        public void ViewGxtFile(string filepath, byte[] data)
-        {
-            var gxt = new GxtFile(filepath, 3);
-            gxt.Load();
 
-            StringBuilder mes = new StringBuilder();
-
-            foreach(var t in gxt.TKEYS)
-            {
-                mes.Append(" new string: ");
-                
-                foreach (var ba in t.TDAT.Data)
-                {
-                    mes.Append(ba.ToString());
-                }
-
-            }
-
-            MessageBox.Show(mes.ToString());
-        }
         private void Search()
         {
             var selectedTag = MainTreeView.SelectedNode.Tag;

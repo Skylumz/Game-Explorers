@@ -46,8 +46,6 @@
   <ItemGroup>
     <Compile Include="Common\GameFiles\ArchiveFile.cs" />
     <Compile Include="Common\GameFiles\GameFile.cs" />
-    <Compile Include="Common\GameFiles\GxtFile.cs" />
-    <Compile Include="Common\GameFiles\RenderWareFile.cs" />
     <Compile Include="Common\Utils\ApplicationSettings.cs" />
     <Compile Include="Common\Utils\BinaryReaderUtilities.cs" />
     <Compile Include="Common\Utils\GTAPATH.cs" />
@@ -70,6 +68,7 @@
     <Compile Include="Common\Winforms\TextEditorForm.Designer.cs">
       <DependentUpon>TextEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GTA3\GameFiles\DffFile.cs" />
     <Compile Include="GTA3\GameFiles\ImgFile.cs" />
     <Compile Include="GTA3\GameFiles\TxdFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,7 +78,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RenderWare\RenderWareSection.cs" />
+    <Compile Include="RenderWare\Sections\Atomic.cs" />
+    <Compile Include="RenderWare\Sections\Clump.cs" />
     <Compile Include="RenderWare\Sections\Extension.cs" />
+    <Compile Include="RenderWare\Sections\FrameList.cs" />
+    <Compile Include="RenderWare\Sections\GeometryList.cs" />
+    <Compile Include="RenderWare\Sections\MaterialList.cs" />
+    <Compile Include="RenderWare\Sections\String.cs" />
     <Compile Include="RenderWare\Sections\TextureDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

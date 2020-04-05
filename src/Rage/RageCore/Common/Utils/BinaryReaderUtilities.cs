@@ -30,5 +30,16 @@ namespace RageCore.Common.Utils
             }
             return result;
         }
+
+        public static string ReadNullStartingString(BinaryReader br, int stringLength)
+        {
+            string result = "";
+            for (int i = 0; i < stringLength; i++)
+            {
+                var b = br.ReadByte();
+                if(b != 0) { result += Convert.ToChar(b); }
+            }
+            return result;
+        }
     }
 }

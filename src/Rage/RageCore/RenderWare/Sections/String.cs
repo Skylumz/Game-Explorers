@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RageCore.Common.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace RageCore.RenderWare.Sections
 {
-    public class Extension : RenderWareSection
+    public class String : RenderWareSection
     {
-        public List<RenderWareSection> Extensions { get; set; }
+        public string DataString { get; set; }
 
         public override void Read(BinaryReader br, RenderWareSection p)
         {
             base.Read(br, p);
 
-            br.ReadBytes(Size);
-
+            DataString = BinaryReaderUtilities.ReadNullStartingString(br, Size);
         }
     }
 }

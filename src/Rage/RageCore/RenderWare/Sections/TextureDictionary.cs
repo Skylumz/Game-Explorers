@@ -19,23 +19,23 @@ namespace RageCore.RenderWare.Sections
         public int TextureCount { get { return Struct.TextureCount; } }
         public Dictionary<string, Bitmap> Textures { get { return GetAllTextures(); } }
 
-        public override void Read(BinaryReader br)
+        public override void Read(BinaryReader br, RenderWareSection p)
         {
-            base.Read(br);
+            base.Read(br, p);
 
             Struct = new TextureDictionaryStruct();
-            Struct.Read(br);
+            Struct.Read(br, this);
 
             TextureNatives = new List<TextureNative>();
             for (int i = 0; i < TextureCount; i++)
             {
                 var tn = new TextureNative();
-                tn.Read(br);
+                tn.Read(br, this);
                 TextureNatives.Add(tn);
             }
 
             Extension = new Extension();
-            Extension.Read(br);
+            Extension.Read(br, this);
         }
 
         private Dictionary<string, Bitmap> GetAllTextures()
@@ -55,9 +55,9 @@ namespace RageCore.RenderWare.Sections
         public short TextureCount { get; set; }
         public short Unk1 { get; set; }
 
-        public override void Read(BinaryReader br)
+        public override void Read(BinaryReader br, RenderWareSection p)
         {
-            base.Read(br);
+            base.Read(br, p);
 
             TextureCount = br.ReadInt16();
             Unk1 = br.ReadInt16();
@@ -69,15 +69,15 @@ namespace RageCore.RenderWare.Sections
         public TextureNativeStruct Struct { get; set; }
         public Extension Extension { get; set; }
 
-        public override void Read(BinaryReader br)
+        public override void Read(BinaryReader br, RenderWareSection p)
         {
-            base.Read(br);
+            base.Read(br, p);
 
             Struct = new TextureNativeStruct();
-            Struct.Read(br);
+            Struct.Read(br, this);
 
             Extension = new Extension();
-            Extension.Read(br);
+            Extension.Read(br, this);
         }
     }
 
@@ -85,7 +85,7 @@ namespace RageCore.RenderWare.Sections
     {
         public int PlatformID { get; set; } // 8 = Gta 3, Gta VC // 9 = Gta SA // PS2\0 = Ps2 Gta 3, VC, SA // 5 = Xbox Gta 3, VC, SA
         public TextureFilterMode FilterMode { get; set; }
-        public TextureAdressingMode AddressMode { get; set; }
+        public TextureAdressMode AddressMode { get; set; }
         public short Pad { get; set; }
         public string DiffuseTextureName { get; set; }
         public string AlphaTextureName { get; set; }
@@ -114,9 +114,9 @@ namespace RageCore.RenderWare.Sections
         public Bitmap PaletteBitmap { get; set; }
         public int PaletteDataSize { get; set; }
         
-        public override void Read(BinaryReader br)
+        public override void Read(BinaryReader br, RenderWareSection p)
         {
-            base.Read(br);
+            base.Read(br, p);
 
             var startPos = br.BaseStream.Position;
 
@@ -135,19 +135,12 @@ namespace RageCore.RenderWare.Sections
                 default:
                     break;
             }
-
-            //have to do this until extensions are implemented
-            if (br.BaseStream.Position != startPos + Size) 
-            {
-                MessageBox.Show("Cur Pos: " + br.BaseStream.Position.ToString() + " Should Pos: " + (startPos + Size).ToString()); //missing 4 bytes?
-                br.BaseStream.Position = startPos + Size; 
-            }
         } 
 
         private void ReadGta3VCFormat(BinaryReader br)
         {
             FilterMode = (TextureFilterMode)br.ReadByte();
-            AddressMode = (TextureAdressingMode)br.ReadByte();
+            AddressMode = (TextureAdressMode)br.ReadByte();
             Pad = br.ReadInt16();
             DiffuseTextureName = BinaryReaderUtilities.ReadNullTerminatedString(br, 32);
             AlphaTextureName = BinaryReaderUtilities.ReadNullTerminatedString(br, 32);
@@ -258,6 +251,47 @@ namespace RageCore.RenderWare.Sections
         }
     }
 
+    public class Texture : RenderWareSection
+    {
+        public TextureStruct Struct { get; set; }
+        public String DiffuseTextureName { get; set; }
+        public String AlphaTextureName { get; set; }
+        public Extension Extension { get; set; }
+
+        public override void Read(BinaryReader br, RenderWareSection p)
+        {
+            base.Read(br, p);
+
+            Struct = new TextureStruct();
+            Struct.Read(br, this);
+
+            DiffuseTextureName = new String();
+            DiffuseTextureName.Read(br, this);
+
+            AlphaTextureName = new String();
+            AlphaTextureName.Read(br, this);
+
+            Extension = new Extension();
+            Extension.Read(br, this);
+        }
+    }
+
+    public class TextureStruct : RenderWareSection
+    {
+        public TextureFilterMode TextureFilterMode { get; set; }
+        public TextureAdressMode TextureAdressMode { get; set; }
+        public ushort UseMipMapLevels { get; set; }
+            
+        public override void Read(BinaryReader br, RenderWareSection p)
+        {
+            base.Read(br, p);
+
+            TextureFilterMode = (TextureFilterMode)br.ReadByte();
+            TextureAdressMode = (TextureAdressMode)br.ReadByte();
+            UseMipMapLevels = br.ReadUInt16();
+        }
+    }
+
     public enum TextureFilterMode
     {
         NONE = 0,
@@ -269,7 +303,7 @@ namespace RageCore.RenderWare.Sections
         LINEAR_MIP_LINEAR = 6
     }
 
-    public enum TextureAdressingMode
+    public enum TextureAdressMode
     {
         NONE = 0,
         WRAP = 1, 
