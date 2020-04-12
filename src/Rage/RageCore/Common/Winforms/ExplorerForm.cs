@@ -20,24 +20,29 @@ namespace RageCore.Common.Winforms
         public GTAPATH GtaPath;
         private TreeNode PreviousTreeNode;
 
-        //kinda wacky
-        private string CurrentPath
+        public string ArchiveFileExtension;
+
+        public Dictionary<string, int> FileTypeImageIndexDict = new Dictionary<string, int>()
         {
-            get
-            {
-                var tag = MainTreeView.SelectedNode.Tag;
-                if (tag is DirectoryInfo)
-                {
-                    var di = tag as DirectoryInfo;
-                    return di.FullName;
-                }
-                else
-                {
-                    var arch = tag as ArchiveFile;
-                    return arch.FilePath;
-                }
-            }
-        }
+            { "default", 607 },
+            { "folder", 422 },
+            { "archive", 428 },
+            { "xml", 610 },
+            { "dll", 617 },
+            { "exe", 617 },
+            { "asi", 617 },
+            { "html", 933 },
+            { "url", 933 },
+            { "txt", 674 },
+            { "dat", 674 },
+            { "cfg", 674 },
+            { "ini", 674 },
+            { "bmp", 704 },
+            { "ico", 704 },
+            { "png", 704 },
+            { "jpg", 704 },
+            { "jpeg", 674 }
+        };
 
         public ExplorerForm(GTAPATH gp)
         {
@@ -48,6 +53,7 @@ namespace RageCore.Common.Winforms
             {
                 InitializeComponent();
                 this.Icon = Icon.ExtractAssociatedIcon(GtaPath.ExePath);
+                FileImageList.Images.Add("icon", Icon);
                 InitExplorer();
             }
         }
@@ -58,7 +64,7 @@ namespace RageCore.Common.Winforms
             MainListView.Items.Clear();
 
             var di = new DirectoryInfo(GtaPath.FolderPath);
-            var root = new TreeNode(di.Name, 0, 0);
+            var root = new TreeNode(di.Name, FileImageList.Images.Count - 1, FileImageList.Images.Count - 1);
             root.Tag = di;
             GetAllFolders(ref root, di, "*");
             root.Expand();
@@ -70,9 +76,9 @@ namespace RageCore.Common.Winforms
         {
             foreach (FileInfo f in dir.GetFiles())
             {
-                if (f.Extension == ".img" || f.Extension == ".rpf")
+                if (f.Extension == ArchiveFileExtension)
                 {
-                    var afolder = new TreeNode(f.Name, 2, 2);
+                    var afolder = new TreeNode(f.Name, FileTypeImageIndexDict["archive"], FileTypeImageIndexDict["archive"]);
                     var archiveFile = LoadArchive(f.FullName);
                     afolder.Tag = archiveFile;
                     root.Nodes.Add(afolder);
@@ -80,20 +86,34 @@ namespace RageCore.Common.Winforms
             }
             foreach (DirectoryInfo d in dir.GetDirectories())
             {
-                var folder = new TreeNode(d.Name, 0, 0);
+                var folder = new TreeNode(d.Name, FileTypeImageIndexDict["folder"], FileTypeImageIndexDict["folder"]);
                 folder.Tag = d;
                 root.Nodes.Add(folder);
                 GetAllFolders(ref folder, d, searchPattern);
             }
         }
 
+        public int GetImageIndex(string extension)
+        {
+            var ext = extension.Replace(".", string.Empty).ToLower();
+            foreach(var key in FileTypeImageIndexDict.Keys)
+            {
+                if(key == ext)
+                {
+                    return FileTypeImageIndexDict[key];
+                }
+            }
+            return FileTypeImageIndexDict["default"];
+        }
+
         private ListViewItem ListViewItemFromFile(FileInfo f)
         {
-            var lvi = new ListViewItem(f.Name, 1);
+            var lvi = new ListViewItem(f.Name, GetImageIndex(f.Extension));
+            if(f.Name == GtaPath.key) { lvi.ImageIndex = FileImageList.Images.Count - 1; }
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
             object tag = f;
-            if (f.Extension == ".img" || f.Extension == ".rpf")
+            if (f.Extension == ArchiveFileExtension)
             {
                 tag = LoadArchive(f.FullName);
             }
@@ -102,7 +122,7 @@ namespace RageCore.Common.Winforms
         }
         private ListViewItem ListViewItemFromDirectory(DirectoryInfo d)
         {
-            var lvi = new ListViewItem(d.Name, 0);
+            var lvi = new ListViewItem(d.Name, FileTypeImageIndexDict["folder"]);
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "File Folder"));
             lvi.Tag = d;
             return lvi;
@@ -132,8 +152,23 @@ namespace RageCore.Common.Winforms
                 DisplayArchive(t as ArchiveFile);
             }
 
-            PathTextBox.Text = CurrentPath;
+            PathTextBox.Text = GetCurrentPath();
             UpdateMainStatusStrip();
+        }
+
+        private string GetCurrentPath()
+        {
+            var tag = MainTreeView.SelectedNode.Tag;
+            if (tag is DirectoryInfo)
+            {
+                var di = tag as DirectoryInfo;
+                return di.FullName;
+            }
+            else
+            {
+                var arch = tag as ArchiveFile;
+                return arch.FilePath;
+            }
         }
 
         private void UpdateMainStatusStrip()
@@ -201,6 +236,18 @@ namespace RageCore.Common.Winforms
                 case "txd":
                     ViewTxdFile(filepath, data);
                     break;
+                case "ide":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "ipl":
+                    ViewTextFile(filepath, data);
+                    break;
+                case "html":
+                    System.Diagnostics.Process.Start(filepath);
+                    break;
+                case "url":
+                    System.Diagnostics.Process.Start(filepath);
+                    break; 
                 default:
                     ViewHexFile(filepath, data);
                     break;
@@ -263,7 +310,7 @@ namespace RageCore.Common.Winforms
                 {
                     searchItems.Add(ListViewItemFromFile(file));
                 }
-                if(file.Name.Contains(".rpf") || file.Name.Contains(".img"))
+                if(file.Name.Contains(ArchiveFileExtension))
                 {
                     SearchArchive(LoadArchive(file.FullName), searchString, ref searchItems);
                 }

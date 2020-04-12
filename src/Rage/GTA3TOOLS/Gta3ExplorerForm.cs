@@ -18,12 +18,31 @@ namespace GTA3TOOLS
         public Gta3ExplorerForm(GTAPATH gp) : base(gp)
         {
             InitializeComponent();
+            ArchiveFileExtension = ".img";
+            AddFileExtensionImageIndexs();
+        }
+
+        private void AddFileExtensionImageIndexs()
+        {
+            FileTypeImageIndexDict.Add("dff", 121);
+            FileTypeImageIndexDict.Add("col", 123);
+            FileTypeImageIndexDict.Add("txd", 714);
+            FileTypeImageIndexDict.Add("ide", 674);
+            FileTypeImageIndexDict.Add("set", 674);
+            FileTypeImageIndexDict.Add("gxt", 674);
+            FileTypeImageIndexDict.Add("ipl", 674);
+            FileTypeImageIndexDict.Add("scm", 635);
+            FileTypeImageIndexDict.Add("raw", 278);
+            FileTypeImageIndexDict.Add("sdt", 278);
+            FileTypeImageIndexDict.Add("anm", 405);
+            FileTypeImageIndexDict.Add("ifp", 405);
+            FileTypeImageIndexDict.Add("img", FileTypeImageIndexDict["archive"]);
         }
 
         //make virtual in base ?
         private ListViewItem ListViewItemFromArchiveFileEntry(Img1DirectoryEntry entry)
         {
-            var lvi = new ListViewItem(entry.Name, 1);
+            var lvi = new ListViewItem(entry.Name, GetImageIndex(entry.Extension));
             var type = entry.Name.Split('.')[1].ToUpper() + " FILE";
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, type));
             lvi.Tag = entry;
