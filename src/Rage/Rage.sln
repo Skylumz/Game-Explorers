@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTA3TOOLS", "GTA3TOOLS\GTA3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RageCore", "RageCore\RageCore.csproj", "{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTASATOOLS", "GTASATOOLS\GTASATOOLS.csproj", "{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderwareEngine", "RenderwareEngine\RenderwareEngine.csproj", "{E0B018BC-7A06-46CF-8F98-C4065E12BE85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

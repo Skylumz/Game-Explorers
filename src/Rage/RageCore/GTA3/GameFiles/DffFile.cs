@@ -1,4 +1,5 @@
 ﻿using RageCore.Common.GameFiles;
+using RageCore.RenderWare;
 using RageCore.RenderWare.Sections;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ namespace RageCore.GTA3.GameFiles
     {
         public Clump Clump { get; set; }
 
+        //for rendering model
+        public RWModel Model { get; set; }
+
         public DffFile(string fp) : base(fp) { }
 
         public override void Load(byte[] data)
@@ -21,6 +25,8 @@ namespace RageCore.GTA3.GameFiles
 
             Clump = new Clump();
             Clump.Read(new BinaryReader(new MemoryStream(data)), null);
+
+            Model = RWModel.ClumpToRWModel(Clump);
         }
     }
 }

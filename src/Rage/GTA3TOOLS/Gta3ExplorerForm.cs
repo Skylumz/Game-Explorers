@@ -19,11 +19,12 @@ namespace GTA3TOOLS
         {
             InitializeComponent();
             ArchiveFileExtension = ".img";
-            AddFileExtensionImageIndexs();
         }
 
-        private void AddFileExtensionImageIndexs()
+        public override void InitFileTypeImageDict()
         {
+            base.InitFileTypeImageDict();
+
             FileTypeImageIndexDict.Add("dff", 121);
             FileTypeImageIndexDict.Add("col", 123);
             FileTypeImageIndexDict.Add("txd", 714);
@@ -76,12 +77,14 @@ namespace GTA3TOOLS
             var dff = new DffFile(filepath);
             dff.Load(data);
 
-            //Form f = new Form();
-            //PropertyGrid p = new PropertyGrid();
-            //p.Dock = DockStyle.Fill;
-            //p.SelectedObject = dff;
-            //f.Controls.Add(p);
-            //f.Show();
+            //MessageBox.Show(dff.Clump.DumpTree(10));
+
+            Form f = new Form();
+            PropertyGrid p = new PropertyGrid();
+            p.Dock = DockStyle.Fill;
+            p.SelectedObject = dff;
+            f.Controls.Add(p);
+            f.Show();
         }
         public override void ViewTxdFile(string filepath, byte[] data)
         {
@@ -128,7 +131,6 @@ namespace GTA3TOOLS
                     ViewHexFile(filepath, data);
                     break;
             }
-
         }
 
         public override void SearchArchive(ArchiveFile af, string searchString, ref List<ListViewItem> searchItems)

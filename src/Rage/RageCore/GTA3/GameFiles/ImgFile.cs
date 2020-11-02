@@ -25,7 +25,7 @@ namespace RageCore.GTA3.GameFiles
         {
             //read .dir file
             var dirfp = FilePath.Replace("img", "dir");
-            var dirbytes = File.ReadAllBytes(dirfp);
+                var dirbytes = File.ReadAllBytes(dirfp);
             NumberOfDirectorys = dirbytes.Length / 32;
             var dirbr = new BinaryReader(new MemoryStream(dirbytes));
 

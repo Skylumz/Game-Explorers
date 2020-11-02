@@ -43,8 +43,10 @@ namespace RageCore.Common.Utils
             settings = ApplicationSettings.GetSettings();
             var p = settings["gtapath"];
 
-            if(!p.Contains(key)) { GetGtaFolder(); }
-            else { ExePath = p; }
+            GetGtaFolder();
+
+            //if(!p.Contains(key)) { GetGtaFolder(); }
+            //else { ExePath = p; }
         }
 
         public bool HaveFolder()
@@ -61,7 +63,7 @@ namespace RageCore.Common.Utils
         {
             if (HaveFolder()) { return; }
 
-            ExePath = FormBoxes.ShowFolderSelector("Please select a folder that contains gta3.exe!");
+            ExePath = FormUtils.ShowFolderSelector("Please select a folder that contains gta3.exe!");
             settings["gtapath"] = ExePath;
             ApplicationSettings.SetSettings(settings);
         }

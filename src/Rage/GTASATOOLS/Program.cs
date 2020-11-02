@@ -1,12 +1,11 @@
-﻿using GTA3TOOLS.EditorForms;
-using RageCore.Common.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RageCore.Common.Utils;
 
-namespace GTA3TOOLS
+namespace GTASATOOLS
 {
     static class Program
     {
@@ -19,11 +18,9 @@ namespace GTA3TOOLS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //var gtaPath = new GTAPATH("gta3.exe");
+            GTAPATH gp = new GTAPATH("gta_sa.exe");
 
-            //Application.Run(new Gta3ExplorerForm(gtaPath));
-
-            Application.Run(new ModelView());
+            Application.Run(new GtaSAExplorerForm(gp));
         }
     }
 }

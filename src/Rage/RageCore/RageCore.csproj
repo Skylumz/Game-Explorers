@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=3.2.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -55,7 +58,7 @@
     <Compile Include="Common\Winforms\ExplorerForm.Designer.cs">
       <DependentUpon>ExplorerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\Winforms\FormBoxes.cs" />
+    <Compile Include="Common\Winforms\FormUtils.cs" />
     <Compile Include="Common\Winforms\HexEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +81,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RenderWare\RenderWareSection.cs" />
+    <Compile Include="RenderWare\RWModel.cs" />
     <Compile Include="RenderWare\Sections\Atomic.cs" />
     <Compile Include="RenderWare\Sections\Clump.cs" />
     <Compile Include="RenderWare\Sections\Extension.cs" />
@@ -107,6 +111,10 @@
     <Folder Include="GTA2\" />
     <Folder Include="GTASA\" />
     <Folder Include="GTAVC\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

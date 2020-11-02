@@ -32,7 +32,7 @@ namespace RageCore.Common.Winforms
             Owner = ef;
             FilePath = fp;
             Data = data;
-            IsXml = true;
+            IsXml = isxml;
 
             InitForm();
             UpdateTextTextBox();

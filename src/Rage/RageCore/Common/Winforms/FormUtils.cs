@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace RageCore.Common.Winforms
 {
-    public class FormBoxes
+    public class FormUtils
     {
         private static OpenFileDialog ofd;
 
         public static string ShowFolderSelector(string title, string message = "")
         {
             ofd = new OpenFileDialog();
-            ofd.Title = message;
+            ofd.Title = title + " - " + message;
             if(ofd.ShowDialog() == DialogResult.OK)
             {
                 return ofd.FileName;
@@ -23,6 +23,6 @@ namespace RageCore.Common.Winforms
             {
                 return "NULL";
             }
-        }       
+        }      
     }
 }

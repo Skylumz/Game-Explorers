@@ -33,23 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.2.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.D3DCompiler.4.2.0\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Desktop, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Desktop.4.2.0\lib\net45\SharpDX.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,6 +51,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SceneObjectEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SceneObjectEditor.Designer.cs">
+      <DependentUpon>SceneObjectEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditorForms\ModelView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditorForms\ModelView.Designer.cs">
+      <DependentUpon>ModelView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditorForms\ModelViewer.cs" />
+    <Compile Include="EditorForms\Rendering\Camera.cs" />
+    <Compile Include="EditorForms\Rendering\FlyCamera.cs" />
+    <Compile Include="EditorForms\Rendering\FpsCamera.cs" />
+    <Compile Include="EditorForms\Rendering\GLResourceLoader.cs" />
+    <Compile Include="EditorForms\Rendering\RenderableModel.cs" />
+    <Compile Include="EditorForms\Rendering\Renderer.cs" />
+    <Compile Include="EditorForms\Rendering\Shaders\BasicShader.cs" />
+    <Compile Include="EditorForms\Rendering\Shaders\ShaderManager.cs" />
+    <Compile Include="EditorForms\Rendering\Shaders\ShaderProgram.cs" />
+    <Compile Include="EditorForms\Rendering\ThirdPersonCamera.cs" />
     <Compile Include="Gta3ExplorerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +88,13 @@
     <Compile Include="EditorForms\TxdEditorForm.Designer.cs">
       <DependentUpon>TxdEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shaders\ColorShader.cs" />
+    <EmbeddedResource Include="Controls\SceneObjectEditor.resx">
+      <DependentUpon>SceneObjectEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorForms\ModelView.resx">
+      <DependentUpon>ModelView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -89,6 +107,16 @@
     <EmbeddedResource Include="EditorForms\TxdEditorForm.resx">
       <DependentUpon>TxdEditorForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="EditorForms\Rendering\Shaders\BasicFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="EditorForms\Rendering\Shaders\BasicVertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Hotel.dff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -99,11 +127,21 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Shaders\ColorFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\ColorVertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EditorForms\Rendering\Shaders\image.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EditorForms\Rendering\Shaders\stallimage.png" />
     <Content Include="settings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -112,6 +150,10 @@
     <ProjectReference Include="..\RageCore\RageCore.csproj">
       <Project>{e28f5de0-0f0a-43ac-b6d0-517314cd9127}</Project>
       <Name>RageCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderwareEngine\RenderwareEngine.csproj">
+      <Project>{e0b018bc-7a06-46cf-8f98-c4065e12be85}</Project>
+      <Name>RenderwareEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

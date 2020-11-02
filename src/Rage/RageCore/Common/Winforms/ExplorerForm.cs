@@ -18,31 +18,10 @@ namespace RageCore.Common.Winforms
     public partial class ExplorerForm : Form
     {
         public GTAPATH GtaPath;
-        private TreeNode PreviousTreeNode;
+        private List<TreeNode> PreviousTreeNodes;
 
         public string ArchiveFileExtension;
-
-        public Dictionary<string, int> FileTypeImageIndexDict = new Dictionary<string, int>()
-        {
-            { "default", 607 },
-            { "folder", 422 },
-            { "archive", 428 },
-            { "xml", 610 },
-            { "dll", 617 },
-            { "exe", 617 },
-            { "asi", 617 },
-            { "html", 933 },
-            { "url", 933 },
-            { "txt", 674 },
-            { "dat", 674 },
-            { "cfg", 674 },
-            { "ini", 674 },
-            { "bmp", 704 },
-            { "ico", 704 },
-            { "png", 704 },
-            { "jpg", 704 },
-            { "jpeg", 674 }
-        };
+        public Dictionary<string, int> FileTypeImageIndexDict;
 
         public ExplorerForm(GTAPATH gp)
         {
@@ -52,8 +31,7 @@ namespace RageCore.Common.Winforms
             if (GtaPath.HaveFolder())
             {
                 InitializeComponent();
-                this.Icon = Icon.ExtractAssociatedIcon(GtaPath.ExePath);
-                FileImageList.Images.Add("icon", Icon);
+                
                 InitExplorer();
             }
         }
@@ -63,13 +41,45 @@ namespace RageCore.Common.Winforms
             MainTreeView.Nodes.Clear();
             MainListView.Items.Clear();
 
+            InitFileTypeImageDict();
+            PreviousTreeNodes = new List<TreeNode>();
+            this.Icon = Icon.ExtractAssociatedIcon(GtaPath.ExePath);
+            FileImageList.Images.Add(this.Icon);
+
             var di = new DirectoryInfo(GtaPath.FolderPath);
-            var root = new TreeNode(di.Name, FileImageList.Images.Count - 1, FileImageList.Images.Count - 1);
+            var root = new TreeNode(di.Name);
+            root.SelectedImageIndex = FileTypeImageIndexDict["exeicon"];
             root.Tag = di;
             GetAllFolders(ref root, di, "*");
             root.Expand();
             MainTreeView.Nodes.Add(root);
             MainTreeView.SelectedNode = root;
+        }
+
+        public virtual void InitFileTypeImageDict()
+        {
+            FileTypeImageIndexDict = new Dictionary<string, int>()
+            {
+                { "default", 607 },
+                { "folder", 422 },
+                { "archive", 428 },
+                { "xml", 610 },
+                { "dll", 617 },
+                { "exe", 617 },
+                { "asi", 617 },
+                { "html", 933 },
+                { "url", 933 },
+                { "txt", 674 },
+                { "dat", 674 },
+                { "cfg", 674 },
+                { "ini", 674 },
+                { "bmp", 704 },
+                { "ico", 704 },
+                { "png", 704 },
+                { "jpg", 704 },
+                { "jpeg", 674 },
+                { "exeicon", FileImageList.Images.Count - 1 }
+            };
         }
 
         private void GetAllFolders(ref TreeNode root, DirectoryInfo dir, string searchPattern)
@@ -109,7 +119,7 @@ namespace RageCore.Common.Winforms
         private ListViewItem ListViewItemFromFile(FileInfo f)
         {
             var lvi = new ListViewItem(f.Name, GetImageIndex(f.Extension));
-            if(f.Name == GtaPath.key) { lvi.ImageIndex = FileImageList.Images.Count - 1; }
+            if(f.Name == GtaPath.key) { lvi.ImageIndex = FileTypeImageIndexDict["exeicon"]; }
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, f.Extension.TrimStart('.').ToUpper() + " FILE"));
             lvi.SubItems.Add(new ListViewItem.ListViewSubItem(lvi, "TODO"));
             object tag = f;
@@ -120,6 +130,7 @@ namespace RageCore.Common.Winforms
             lvi.Tag = tag;
             return lvi;
         }
+
         private ListViewItem ListViewItemFromDirectory(DirectoryInfo d)
         {
             var lvi = new ListViewItem(d.Name, FileTypeImageIndexDict["folder"]);
@@ -127,6 +138,7 @@ namespace RageCore.Common.Winforms
             lvi.Tag = d;
             return lvi;
         }
+
         private void UpdateMainListView()
         {
             MainListView.Items.Clear();
@@ -153,6 +165,7 @@ namespace RageCore.Common.Winforms
             }
 
             PathTextBox.Text = GetCurrentPath();
+            SearchTextBox.Text = string.Empty;
             UpdateMainStatusStrip();
         }
 
@@ -324,7 +337,16 @@ namespace RageCore.Common.Winforms
 
         private void GoBack()
         {
-            MainTreeView.SelectedNode = PreviousTreeNode;
+            if(PreviousTreeNodes.Count == 0) { return; }
+
+            // DO NOT UNDERSTAND THIS (remove twice)
+            try
+            {
+                MainTreeView.SelectedNode = PreviousTreeNodes[PreviousTreeNodes.Count - 1];
+                PreviousTreeNodes.RemoveAt(PreviousTreeNodes.Count - 1);
+                PreviousTreeNodes.RemoveAt(PreviousTreeNodes.Count - 1);
+            }
+            catch { }
         }
 
         public virtual void ExtractArchiveFile(ArchiveFileEntry afe) { }
@@ -355,11 +377,10 @@ namespace RageCore.Common.Winforms
         private void MainTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             UpdateMainListView();
-            SearchTextBox.Text = string.Empty;
         }
         private void MainTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            PreviousTreeNode = MainTreeView.SelectedNode;
+            PreviousTreeNodes.Add(MainTreeView.SelectedNode);
         }
         private void MainListView_ItemActivate(object sender, EventArgs e)
         {
