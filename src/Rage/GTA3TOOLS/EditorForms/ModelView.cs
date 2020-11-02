@@ -31,6 +31,7 @@ namespace GTA3TOOLS.EditorForms
         {
             Viewport = new GLControl();
             Controls.Add(Viewport);
+            Viewport.BringToFront();
 
             Viewport.Paint += Viewport_Paint;
             Viewport.Resize += Viewport_Resize;
@@ -42,6 +43,7 @@ namespace GTA3TOOLS.EditorForms
             scene.Renderer.ShaderManager.AddShader("Color", colorShader);
 
             scene.Renderer.Start();
+            UpdateSceneUI();
 
             Application.Idle += Application_Idle;
 
@@ -79,29 +81,30 @@ namespace GTA3TOOLS.EditorForms
 
         private void UpdateSceneUI()
         {
-            var startLoc = new Point();
-            foreach (var obj in scene.SceneObjects)
+            SceneTreeView.Nodes.Clear();
+
+            foreach (var obj in scene.GameObjects)
             {
-                var transformcontrol = new SceneObjectEditor();
-                transformcontrol.model = obj;
-                transformcontrol.Parent = this;
-                transformcontrol.BringToFront();
-                transformcontrol.Location = startLoc;
-                startLoc.Y += transformcontrol.Height;
+                TreeNode n = new TreeNode();
+                n.Text = "Cube";
+                n.Tag = obj;
+                SceneTreeView.Nodes.Add(n);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            int count;
-            bool parsed = int.TryParse(textBox1.Text, out count);
-            if (parsed)
-            {
-                scene.Grid.UpdateGridCount(count);
-            }
+            if(e.Node == null || e.Node.Tag == null) { return; }
+
+            var go = e.Node.Tag as GameObject;
+
+            var transformcontrol = new SceneObjectEditor();
+            transformcontrol.GameObject = go;
+            transformcontrol.Parent = InspectorPanel;
+            transformcontrol.BringToFront();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void cubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             scene.AddCube();
             UpdateSceneUI();

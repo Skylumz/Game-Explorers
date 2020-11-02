@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RenderwareEngine
+namespace RenderwareEngine.Rendering
 {
     public class Renderer
     {
@@ -51,14 +51,19 @@ namespace RenderwareEngine
             GL.Viewport(0, 0, Viewport.Width, Viewport.Height);
         }
 
-        public void RenderRenderableModel(RenderableModel model, Camera cam)
+        public void RenderGameObject(GameObject go, Camera cam)
+        {
+            go.Transform.CalculateModelViewProjectionMatrix(Viewport.Width, Viewport.Height, cam);
+
+            RenderRenderableModel(go.Model, go.Transform.ModelViewProjectionMatrix);
+        }
+
+        public void RenderRenderableModel(RenderableModel model, Matrix4 vpmatrix)
         {
             var shader = ShaderManager.GetShader(model.ShaderName);
             shader.Start();
             
-            model.CalculateModelViewProjectionMatrix(Viewport.Width, Viewport.Height, cam);
-
-            shader.LoadModelViewMatrix(model.ModelViewProjectionMatrix);
+            shader.LoadModelViewMatrix(vpmatrix);
 
             GL.BindVertexArray(model.VaoID);
             GL.EnableVertexArrayAttrib(model.VaoID, 0);
@@ -66,6 +71,7 @@ namespace RenderwareEngine
             GL.DrawElements(PrimitiveType.Triangles, model.Indicies.Count, DrawElementsType.UnsignedInt, 0);
 
             GL.DisableVertexArrayAttrib(model.VaoID, 0);
+
             GL.BindVertexArray(0);
             shader.Stop();
         }
@@ -80,8 +86,10 @@ namespace RenderwareEngine
 
             GL.BindVertexArray(grid.VaoID);
             GL.EnableVertexArrayAttrib(grid.VaoID, 0);
+            GL.EnableVertexArrayAttrib(grid.VaoID, 1);
             GL.DrawArrays(PrimitiveType.Lines, 0, grid.Verticies.Count);
             GL.DisableVertexArrayAttrib(grid.VaoID, 0);
+            GL.DisableVertexArrayAttrib(grid.VaoID, 1);
             GL.BindVertexArray(0);
             shader.Stop();
         }

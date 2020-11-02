@@ -1,36 +1,32 @@
-﻿using System;
+﻿using OpenTK;
+using RenderwareEngine.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTK;
 
 namespace RenderwareEngine
 {
-    public class RenderableModel
+    public class Transform
     {
-        public string ShaderName;
-        public int VaoID;
-
-        //transform
         public Vector3 Position;
         public Vector3 Rotation;
         public Vector3 Scale;
 
-        public Matrix4 ModelMatrix = Matrix4.Identity;
-        public Matrix4 ViewProjectionMatrix = Matrix4.Identity;
-        public Matrix4 ModelViewProjectionMatrix = Matrix4.Identity;
+        private Matrix4 ModelMatrix;
+        private Matrix4 ViewProjectionMatrix;
+        public Matrix4 ModelViewProjectionMatrix { get; private set; }
 
-        //mesh data
-        public List<Vector3> Verticies;
-        public List<int> Indicies;
-
-        public RenderableModel(List<Vector3> verts, List<int> indicies, string shadername)
+        public Transform()
         {
-            Verticies = verts;
-            Indicies = indicies;
-            ShaderName = shadername;
-            VaoID = GLManager.BindRenderableModel(this);
+            Position = new Vector3();
+            Rotation = new Vector3();
+            Scale = new Vector3(1, 1, 1);
+
+            ModelMatrix = Matrix4.Identity;
+            ViewProjectionMatrix = Matrix4.Identity;
+            ModelViewProjectionMatrix = Matrix4.Identity;
         }
 
         public void CalculateModelViewProjectionMatrix(int width, int height, Camera cam, float FOV = 75)

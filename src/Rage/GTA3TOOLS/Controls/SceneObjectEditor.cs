@@ -13,7 +13,7 @@ namespace GTA3TOOLS.Controls
 {
     public partial class SceneObjectEditor : UserControl
     {
-        public RenderableModel model;
+        public GameObject GameObject;
 
         public SceneObjectEditor()
         {
@@ -35,15 +35,15 @@ namespace GTA3TOOLS.Controls
 
         private void UpdateText()
         {
-            PositionXTextbox.Text = model.Position.X.ToString();
-            PositionYTextbox.Text = model.Position.Y.ToString();
-            PositionZTextbox.Text = model.Position.Z.ToString();
-            RotationXTextbox.Text = model.Rotation.X.ToString();
-            RotationYTextbox.Text = model.Rotation.Y.ToString();
-            RotationZTextbox.Text = model.Rotation.Z.ToString();
-            ScaleXTextbox.Text = model.Scale.X.ToString();
-            ScaleYTextbox.Text = model.Scale.Y.ToString();
-            ScaleZTextbox.Text = model.Scale.Z.ToString();
+            PositionXTextbox.Text = GameObject.Transform.Position.X.ToString();
+            PositionYTextbox.Text = GameObject.Transform.Position.Y.ToString();
+            PositionZTextbox.Text = GameObject.Transform.Position.Z.ToString();
+            RotationXTextbox.Text = GameObject.Transform.Rotation.X.ToString();
+            RotationYTextbox.Text = GameObject.Transform.Rotation.Y.ToString();
+            RotationZTextbox.Text = GameObject.Transform.Rotation.Z.ToString();
+            ScaleXTextbox.Text = GameObject.Transform.Scale.X.ToString();
+            ScaleYTextbox.Text = GameObject.Transform.Scale.Y.ToString();
+            ScaleZTextbox.Text = GameObject.Transform.Scale.Z.ToString();
         }
 
         private void ScaleZTextbox_TextChanged(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(ScaleZTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Scale.Z = value;
+                GameObject.Transform.Scale.Z = value;
             }
         }
 
@@ -62,7 +62,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(ScaleYTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Scale.Y = value;
+                GameObject.Transform.Scale.Y = value;
             }
         }
 
@@ -72,7 +72,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(ScaleXTextbox.Text, out value);;
             if (isFloat == true)
             {
-                model.Scale.X = value;
+                GameObject.Transform.Scale.X = value;
             }
         }
 
@@ -82,7 +82,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(RotationZTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Rotation.Z = value;
+                GameObject.Transform.Rotation.Z = value;
             }
         }
 
@@ -92,7 +92,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(RotationYTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Rotation.Y = value;
+                GameObject.Transform.Rotation.Y = value;
             }
         }
 
@@ -102,7 +102,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(RotationXTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Rotation.X = value;
+                GameObject.Transform.Rotation.X = value;
             }
         }
 
@@ -112,7 +112,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(PositionZTextbox.Text, out value);
             if (value != 0)
             {
-                model.Position.Z = value;
+                GameObject.Transform.Position.Z = value;
             }
         }
 
@@ -122,7 +122,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(PositionYTextbox.Text, out value);
             if (isFloat == true)
             {
-                model.Position.Y = value;
+                GameObject.Transform.Position.Y = value;
             }
         }
 
@@ -132,7 +132,7 @@ namespace GTA3TOOLS.Controls
             bool isFloat = float.TryParse(PositionXTextbox.Text, out value);
             if(isFloat == true)
             {
-                model.Position.X = value;
+                GameObject.Transform.Position.X = value;
             }
         }
 

@@ -1,7 +1,10 @@
 ﻿using OpenTK;
+using RenderwareEngine.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +14,7 @@ namespace RenderwareEngine
     {
         public GLControl Viewport;
         public Renderer Renderer;
-        public List<RenderableModel> SceneObjects;
+        public List<GameObject> GameObjects;
         public Camera Camera;
         public Grid Grid;
 
@@ -26,12 +29,11 @@ namespace RenderwareEngine
         public void Init()
         {
             Renderer = new Renderer(Viewport);
-            SceneObjects = new List<RenderableModel>();
+            GameObjects = new List<GameObject>();
             Camera = new Camera(Viewport);
             Camera.MoveSpeed = 0.2f;
             Camera.Position = new Vector3(0, 0, 0);
             Grid = new Grid(10);
-            Grid.Position = new Vector3(0, 0, 0);
             Grid.ShaderName = "Color";
         }
 
@@ -70,10 +72,24 @@ namespace RenderwareEngine
                 0, 5, 4
             };
 
-            var model = new RenderableModel(verts, inds, "Color");
-            model.Scale = new Vector3(1, 1, 1);
-            model.Position = new Vector3(0, 0, 0);
-            SceneObjects.Add(model);
+            var colors = new List<Vector3>
+            {
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f),
+                new Vector3(1f, 1f,  1f)
+            };
+
+            var model = new RenderableModel(verts, colors, inds, "Color");
+            var transform = new Transform();
+
+            var go = new GameObject(transform, model);
+
+            GameObjects.Add(go);
         }
 
         public void Render()
@@ -83,9 +99,9 @@ namespace RenderwareEngine
             Camera.ProcessInput();
             Renderer.RenderGrid(Grid, Camera);
 
-            foreach (var obj in SceneObjects)
+            foreach (var obj in GameObjects)
             {
-                Renderer.RenderRenderableModel(obj, Camera);
+                Renderer.RenderGameObject(obj, Camera);
             }
 
             Viewport.SwapBuffers();

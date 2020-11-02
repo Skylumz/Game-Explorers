@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Input;
 
-namespace RenderwareEngine
+namespace RenderwareEngine.Rendering
 {
     public class Camera
     {

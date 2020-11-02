@@ -63,17 +63,6 @@
     <Compile Include="EditorForms\ModelView.Designer.cs">
       <DependentUpon>ModelView.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditorForms\ModelViewer.cs" />
-    <Compile Include="EditorForms\Rendering\Camera.cs" />
-    <Compile Include="EditorForms\Rendering\FlyCamera.cs" />
-    <Compile Include="EditorForms\Rendering\FpsCamera.cs" />
-    <Compile Include="EditorForms\Rendering\GLResourceLoader.cs" />
-    <Compile Include="EditorForms\Rendering\RenderableModel.cs" />
-    <Compile Include="EditorForms\Rendering\Renderer.cs" />
-    <Compile Include="EditorForms\Rendering\Shaders\BasicShader.cs" />
-    <Compile Include="EditorForms\Rendering\Shaders\ShaderManager.cs" />
-    <Compile Include="EditorForms\Rendering\Shaders\ShaderProgram.cs" />
-    <Compile Include="EditorForms\Rendering\ThirdPersonCamera.cs" />
     <Compile Include="Gta3ExplorerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,12 +96,6 @@
     <EmbeddedResource Include="EditorForms\TxdEditorForm.resx">
       <DependentUpon>TxdEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="EditorForms\Rendering\Shaders\BasicFragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="EditorForms\Rendering\Shaders\BasicVertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Hotel.dff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -138,10 +121,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EditorForms\Rendering\Shaders\image.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EditorForms\Rendering\Shaders\stallimage.png" />
     <Content Include="settings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

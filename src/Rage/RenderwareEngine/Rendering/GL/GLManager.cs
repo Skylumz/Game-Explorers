@@ -9,7 +9,7 @@ using OpenTK;
 
 //cam cam cam https://stackoverflow.com/questions/28676300/opengl-with-opentk-wrapper-cannot-get-projections-to-work
 
-namespace RenderwareEngine
+namespace RenderwareEngine.Rendering
 {
     public static class GLManager
     {
@@ -26,7 +26,7 @@ namespace RenderwareEngine
         {
             int vaoID = CreateVAO();
             StoreVector3DataInAttributeList(0, 3, grid.Verticies.ToArray());
-            //StoreVector3DataInAttributeList(1, 3, grid.VertexColors.ToArray());
+            StoreVector3DataInAttributeList(1, 3, grid.VertexColors.ToArray());
             UnbindVAO();
             return vaoID;
         }
