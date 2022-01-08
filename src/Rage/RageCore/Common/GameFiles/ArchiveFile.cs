@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RageCore.Common.GameFiles
+namespace GameCore
 {
     public class ArchiveFile : GameFile
     {

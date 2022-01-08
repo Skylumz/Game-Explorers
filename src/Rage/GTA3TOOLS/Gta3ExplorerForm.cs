@@ -5,17 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using RageCore.Common.Utils;
-using RageCore.Common.GameFiles;
-using RageCore.GTA3.GameFiles;
-using RageCore.Common.Winforms;
 using System.IO;
+using GameCore;
+using GameCore.GTA3;
 
 namespace GTA3TOOLS
 {
     public partial class Gta3ExplorerForm : ExplorerForm
     {
-        public Gta3ExplorerForm(GTAPATH gp) : base(gp)
+        public Gta3ExplorerForm(GAMEPATH gp) : base(gp)
         {
             InitializeComponent();
             ArchiveFileExtension = ".img";

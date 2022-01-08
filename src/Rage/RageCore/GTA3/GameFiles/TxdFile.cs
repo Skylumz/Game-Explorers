@@ -1,5 +1,4 @@
-﻿using RageCore.Common.GameFiles;
-using RageCore.RenderWare.Sections;
+﻿using GameCore.RenderWare.Sections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RageCore.GTA3.GameFiles
+namespace GameCore.GTA3
 {
     public class TxdFile : GameFile
     {

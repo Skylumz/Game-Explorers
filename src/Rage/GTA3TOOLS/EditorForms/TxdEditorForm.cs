@@ -1,6 +1,4 @@
-﻿using RageCore.Common.Winforms;
-using RageCore.GTA3.GameFiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using RageCore.RenderWare.Sections;
+using GameCore;
+using GameCore.GTA3;
 //TODO
 //UI WORK - toolstrip and shit
 //Import texture

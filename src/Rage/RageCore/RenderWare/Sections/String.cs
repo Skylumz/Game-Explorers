@@ -1,12 +1,11 @@
-﻿using RageCore.Common.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RageCore.RenderWare.Sections
+namespace GameCore.RenderWare.Sections
 {
     public class String : RenderWareSection
     {

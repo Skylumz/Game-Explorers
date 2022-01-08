@@ -1,5 +1,4 @@
-﻿using RageCore.Common.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RageCore.RenderWare.Sections
+namespace GameCore.RenderWare.Sections
 {
     public class TextureDictionary : RenderWareSection
     {

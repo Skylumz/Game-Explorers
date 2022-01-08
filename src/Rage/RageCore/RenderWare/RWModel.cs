@@ -1,11 +1,11 @@
-﻿using RageCore.RenderWare.Sections;
+﻿using GameCore.RenderWare.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RageCore.RenderWare
+namespace GameCore.RenderWare
 {
     public class RWModel
     {

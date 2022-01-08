@@ -1,4 +1,4 @@
-﻿namespace RageCore.Common.Winforms
+﻿namespace GameCore
 {
     partial class ExplorerForm
     {

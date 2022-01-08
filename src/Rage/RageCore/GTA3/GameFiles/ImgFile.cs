@@ -1,10 +1,8 @@
-﻿using RageCore.Common.GameFiles;
-using RageCore.Common.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace RageCore.GTA3.GameFiles
+namespace GameCore.GTA3
 {
     public class ImgFile : ArchiveFile
     {

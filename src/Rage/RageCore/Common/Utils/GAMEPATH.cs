@@ -1,5 +1,4 @@
-﻿using RageCore.Common.Winforms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RageCore.Common.Utils
+namespace GameCore
 {
-    public class GTAPATH
+    public class GAMEPATH
     {
         public string key { get; set; }
 
@@ -36,7 +35,7 @@ namespace RageCore.Common.Utils
         private string path;
         private Dictionary<string, string> settings;
 
-        public GTAPATH(string k)
+        public GAMEPATH(string k)
         {
             key = k;
 

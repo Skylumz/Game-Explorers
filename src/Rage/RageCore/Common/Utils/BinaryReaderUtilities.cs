@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RageCore.Common.Utils
+namespace GameCore
 {
     public static class BinaryReaderUtilities
     {

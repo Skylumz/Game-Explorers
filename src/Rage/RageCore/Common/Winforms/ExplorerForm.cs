@@ -1,7 +1,4 @@
-﻿using RageCore.Common.GameFiles;
-using RageCore.Common.Utils;
-using RageCore.GTA3.GameFiles;
-using RageCore.RenderWare.Sections;
+﻿using GameCore.RenderWare.Sections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,17 +10,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RageCore.Common.Winforms
+namespace GameCore
 {
     public partial class ExplorerForm : Form
     {
-        public GTAPATH GtaPath;
+        public GAMEPATH GtaPath;
         private List<TreeNode> PreviousTreeNodes;
 
         public string ArchiveFileExtension;
         public Dictionary<string, int> FileTypeImageIndexDict;
 
-        public ExplorerForm(GTAPATH gp)
+        public ExplorerForm(GAMEPATH gp)
         {
             if (gp == null) { return; }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RageCore.Common.GameFiles
+namespace GameCore
 {
     public class GameFile
     {

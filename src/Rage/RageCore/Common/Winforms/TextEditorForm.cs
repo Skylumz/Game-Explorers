@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RageCore.Common.Winforms
+namespace GameCore
 {
     public partial class TextEditorForm : Form
     {

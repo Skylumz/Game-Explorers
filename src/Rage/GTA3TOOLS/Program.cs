@@ -1,5 +1,5 @@
-﻿using GTA3TOOLS.EditorForms;
-using RageCore.Common.Utils;
+﻿using GameCore;
+using GTA3TOOLS.EditorForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +19,11 @@ namespace GTA3TOOLS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //var gtaPath = new GTAPATH("gta3.exe");
+            var gtaPath = new GAMEPATH("gta3.exe");
 
-            //Application.Run(new Gta3ExplorerForm(gtaPath));
+            Application.Run(new Gta3ExplorerForm(gtaPath));
 
-            Application.Run(new ModelView());
+            //Application.Run(new ModelView());
         }
     }
 }

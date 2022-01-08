@@ -126,9 +126,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RageCore\RageCore.csproj">
+    <ProjectReference Include="..\RageCore\GameCore.csproj">
       <Project>{e28f5de0-0f0a-43ac-b6d0-517314cd9127}</Project>
-      <Name>RageCore</Name>
+      <Name>GameCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\RenderwareEngine\RenderwareEngine.csproj">
       <Project>{e0b018bc-7a06-46cf-8f98-c4065e12be85}</Project>

@@ -18,6 +18,8 @@ namespace RenderwareEngine
         public Camera Camera;
         public Grid Grid;
 
+        public bool renderGrid = true;
+
         public Scene(GLControl vp)
         {
             Viewport = vp;
@@ -33,7 +35,7 @@ namespace RenderwareEngine
             Camera = new Camera(Viewport);
             Camera.MoveSpeed = 0.2f;
             Camera.Position = new Vector3(0, 0, 0);
-            Grid = new Grid(10);
+            Grid = new Grid(10, 10);
             Grid.ShaderName = "Color";
         }
 
@@ -97,7 +99,11 @@ namespace RenderwareEngine
             Renderer.PrepareFrame();
             
             Camera.ProcessInput();
-            Renderer.RenderGrid(Grid, Camera);
+
+            if (renderGrid)
+            {
+                Renderer.RenderGrid(Grid, Camera);
+            }
 
             foreach (var obj in GameObjects)
             {

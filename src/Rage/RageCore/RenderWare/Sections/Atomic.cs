@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RageCore.RenderWare.Sections
+namespace GameCore.RenderWare.Sections
 {
     public class Atomic : RenderWareSection
     {

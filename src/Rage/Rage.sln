@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTA3TOOLS", "GTA3TOOLS\GTA3TOOLS.csproj", "{FCD64FD1-DE46-4C45-A1D6-9E899F5350FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RageCore", "RageCore\RageCore.csproj", "{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "RageCore\GameCore.csproj", "{E28F5DE0-0F0A-43AC-B6D0-517314CD9127}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTASATOOLS", "GTASATOOLS\GTASATOOLS.csproj", "{9F2C5A24-3A26-4B0D-A9AA-39BB96BB7167}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderwareEngine", "RenderwareEngine\RenderwareEngine.csproj", "{E0B018BC-7A06-46CF-8F98-C4065E12BE85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectXEngine", "DirectXEngine\DirectXEngine.csproj", "{76A04F15-1AEF-4483-A49C-AB828CB15D3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAFIATOOLS", "MAFIATOOLS\MAFIATOOLS.csproj", "{69420263-D508-4054-A16E-E4D81BCA14C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0B018BC-7A06-46CF-8F98-C4065E12BE85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A04F15-1AEF-4483-A49C-AB828CB15D3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A04F15-1AEF-4483-A49C-AB828CB15D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A04F15-1AEF-4483-A49C-AB828CB15D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A04F15-1AEF-4483-A49C-AB828CB15D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69420263-D508-4054-A16E-E4D81BCA14C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69420263-D508-4054-A16E-E4D81BCA14C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69420263-D508-4054-A16E-E4D81BCA14C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69420263-D508-4054-A16E-E4D81BCA14C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

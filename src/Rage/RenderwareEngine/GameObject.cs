@@ -9,6 +9,7 @@ namespace RenderwareEngine
 {
     public class GameObject
     {
+        public string Name { get; set; }
         public Transform Transform { get; set; }
         public RenderableModel Model { get; set; }
 

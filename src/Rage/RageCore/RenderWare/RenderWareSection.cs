@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace RageCore.RenderWare
+namespace GameCore.RenderWare
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]   
     public class RenderWareSection

@@ -1,5 +1,4 @@
-﻿using RageCore.Common.GameFiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +15,7 @@ using System.Windows.Forms;
 //Display Caret Offset Position
 //
 
-namespace RageCore.Common.Winforms
+namespace GameCore
 {
     public partial class HexEditorForm : Form
     {

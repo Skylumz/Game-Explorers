@@ -9,16 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GTASATOOLS
-{
-    public partial class GtaSAExplorerForm : ExplorerForm
-    {
-        private GAMEPATH gtap;
 
-        public GtaSAExplorerForm(GAMEPATH gp) : base(gp)
+namespace MAFIATOOLS
+{
+    public partial class MafiaExplorerForm : ExplorerForm
+    {
+        public MafiaExplorerForm(GAMEPATH gp) : base(gp)
         {
             InitializeComponent();
-            gtap = gp;
         }
     }
 }

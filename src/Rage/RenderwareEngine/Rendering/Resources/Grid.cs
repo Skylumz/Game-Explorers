@@ -11,7 +11,8 @@ namespace RenderwareEngine.Rendering
     {
         public int VaoID;
         public string ShaderName;
-        public int GridCount;
+        public int GridXCount;
+        public int GridYCount;
 
         //transform
         public Vector3 Position;
@@ -27,29 +28,30 @@ namespace RenderwareEngine.Rendering
         public List<Vector3> Verticies;
         public List<Vector3> VertexColors;
 
-        public Grid(int count)
+        public Grid(int count, int county)
         {
-            GridCount = count;
+            GridXCount = count;
+            GridYCount = county;
             BuildGrid();
         }
 
         private void BuildGrid()
         {
             Verticies = new List<Vector3>();
-            Verticies.Add(new Vector3(0, -GridCount, 0));
-            Verticies.Add(new Vector3(0, GridCount, 0));
-            for (int i = -GridCount; i <= GridCount; i++)
+            Verticies.Add(new Vector3(0, -GridXCount, 0));
+            Verticies.Add(new Vector3(0, GridYCount, 0));
+            for (int i = -GridXCount; i <= GridYCount; i++)
             {
-                Verticies.Add(new Vector3(i, 0, -GridCount));
-                Verticies.Add(new Vector3(i, 0, GridCount));
-                Verticies.Add(new Vector3(-GridCount, 0, i));
-                Verticies.Add(new Vector3(GridCount, 0, i));
+                Verticies.Add(new Vector3(i, 0, -GridXCount));
+                Verticies.Add(new Vector3(i, 0, GridXCount));
+                Verticies.Add(new Vector3(-GridYCount, 0, i));
+                Verticies.Add(new Vector3(GridYCount, 0, i));
             }
             
             VertexColors = new List<Vector3>();
             VertexColors.Add(new Vector3(0, 1, 0));
             VertexColors.Add(new Vector3(0, 1, 0));
-            for (int i = -GridCount; i <= GridCount; i++)
+            for (int i = -GridXCount; i <= GridYCount; i++)
             {
                 if (i == -2)
                 {
@@ -71,9 +73,10 @@ namespace RenderwareEngine.Rendering
             VaoID = GLManager.BindGrid(this);
         }
 
-        public void UpdateGridCount(int count)
+        public void UpdateGridCount(int count, int county)
         {
-            GridCount = count;
+            GridXCount = count;
+            GridYCount = county;
             BuildGrid();
         }
 

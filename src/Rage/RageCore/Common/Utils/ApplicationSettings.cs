@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 
-namespace RageCore.Common.Utils
+namespace GameCore
 {
     public static class ApplicationSettings
     {
