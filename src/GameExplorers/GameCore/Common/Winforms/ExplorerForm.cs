@@ -12,7 +12,17 @@ using System.Windows.Forms;
 
 namespace GameCore
 {
-    public partial class ExplorerForm : Form
+    public interface IExplorerForm
+    {
+        void InitFileTypeImageDict();
+        ArchiveFile LoadArchive(string filepath);
+        void DisplayArchive(ArchiveFile arch);
+        void ViewFile(ArchiveFileEntry afe, bool hex = false);
+        void SearchArchive(ArchiveFile af, string searchString, ref List<ListViewItem> searchItems);
+        void ExtractArchiveFile(ArchiveFileEntry afe);
+    }
+
+    public partial class ExplorerForm : Form, IExplorerForm
     {
         public GAMEPATH GtaPath;
         private List<TreeNode> PreviousTreeNodes;

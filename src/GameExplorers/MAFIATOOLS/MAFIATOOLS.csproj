@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69420263-D508-4054-A16E-E4D81BCA14C0}</ProjectGuid>
+    <ProjectGuid>{CE8B2AA5-4FEC-4B09-B1AB-3F6C990D93DB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MAFIATOOLS</RootNamespace>
     <AssemblyName>MAFIATOOLS</AssemblyName>
@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MafiaExplorerForm.resx">
+      <DependentUpon>MafiaExplorerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
