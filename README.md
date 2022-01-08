@@ -1,2 +1,1 @@
-# Rage
- Rage
+# Game exploring
