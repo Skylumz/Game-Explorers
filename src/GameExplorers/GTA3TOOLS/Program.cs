@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using GTA3TOOLS.EditorForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +21,6 @@ namespace GTA3TOOLS
             var gtaPath = new GAMEPATH("gta3.exe");
 
             Application.Run(new Gta3ExplorerForm(gtaPath));
-
-            //Application.Run(new ModelView());
         }
     }
 }

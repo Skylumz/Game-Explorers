@@ -77,7 +77,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RageCore\GameCore.csproj">
+    <ProjectReference Include="..\GameCore\GameCore.csproj">
       <Project>{e28f5de0-0f0a-43ac-b6d0-517314cd9127}</Project>
       <Name>GameCore</Name>
     </ProjectReference>
